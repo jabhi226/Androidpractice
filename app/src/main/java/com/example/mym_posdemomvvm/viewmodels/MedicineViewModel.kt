@@ -14,6 +14,4 @@ class MedicineViewModel(application: Application) : AndroidViewModel(application
         repository = RetailerDbRepository(application)
         allMedicines = repository?.getAllMedicines()
     }
-
-
 }

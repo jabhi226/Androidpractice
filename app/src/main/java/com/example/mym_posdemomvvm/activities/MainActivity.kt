@@ -7,6 +7,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mym_posdemomvvm.databinding.ActivityMainBinding
+import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
 import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
 
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.sales.setOnClickListener(this)
         binding.purchase.setOnClickListener(this)
         binding.addMedicine.setOnClickListener(this)
+        binding.showAllMedicines.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -54,7 +56,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             }
             binding.showAllMedicines.id -> {
-
+                val fm = supportFragmentManager.beginTransaction()
+                fm.replace(binding.mainFrame.id, ShowAllMedicineFragment())
+                fm.commit()
             }
         }
     }

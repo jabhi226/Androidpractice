@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Abhishek/AndroidStudioProjects/MyMPosDemoMVVM/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Abhishek/AndroidStudioProjects/MyMPosDemoMVVM/app/src/main/res/layout/fragment_show_all_medicine.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/Abhishek/AndroidStudioProjects/MyMPosDemoMVVM/app/src/main/res/layout/item_medicine_detail.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Abhishek/AndroidStudioProjects/MyMPosDemoMVVM/app/src/main/res/layout/item_medicine_item.xml" value="0.33" />
       </map>
     </option>
