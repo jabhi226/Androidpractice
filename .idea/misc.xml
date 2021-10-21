@@ -3,14 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.37083333333333335" />
         <entry key="..\:/Users/Abhishek/AndroidStudioProjects/MyMPosDemoMVVM/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/Abhishek/AndroidStudioProjects/MyMPosDemoMVVM/app/src/main/res/layout/fragment_show_all_medicine.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/Abhishek/AndroidStudioProjects/MyMPosDemoMVVM/app/src/main/res/layout/item_medicine_detail.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Abhishek/AndroidStudioProjects/MyMPosDemoMVVM/app/src/main/res/layout/item_medicine_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/fragment_add_medicine.xml" value="0.3134057971014493" />
+        <entry key="app/src/main/res/layout/fragment_show_all_medicine.xml" value="0.33697916666666666" />
+        <entry key="app/src/main/res/layout/item_medicine_item.xml" value="0.3134057971014493" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

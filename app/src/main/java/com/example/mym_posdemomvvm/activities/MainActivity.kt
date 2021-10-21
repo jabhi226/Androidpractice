@@ -7,8 +7,8 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mym_posdemomvvm.databinding.ActivityMainBinding
+import com.example.mym_posdemomvvm.fragments.AddMedicineFragment
 import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
-import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         medicineViewModel.allMedicines?.observe(this, Observer {
             it.forEach { medicine ->
                 Log.e("MEDICINES", "getMeds: ${medicine.name}")
-                Utils.showToast(this, medicine.name)
             }
         })
     }
@@ -53,13 +52,42 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             }
             binding.addMedicine.id -> {
-
+                val fm = supportFragmentManager.beginTransaction()
+                fm.replace(binding.mainFrame.id, AddMedicineFragment(), "AddMedicineFragment")
+                fm.commit()
             }
             binding.showAllMedicines.id -> {
                 val fm = supportFragmentManager.beginTransaction()
-                fm.replace(binding.mainFrame.id, ShowAllMedicineFragment())
+                fm.replace(binding.mainFrame.id, ShowAllMedicineFragment(), "ShowAllMedicineFragment")
                 fm.commit()
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        val frag = supportFragmentManager.findFragmentById(binding.mainFrame.id)
+        if (frag != null){
+            frag.let {
+                when (it.javaClass.simpleName) {
+                    "ShowAllMedicineFragment" -> {
+                        val f = supportFragmentManager.findFragmentByTag("ShowAllMedicineFragment")
+                        if (f != null) {
+                            supportFragmentManager.beginTransaction().remove(f).commit()
+                        }
+                    }
+                    "AddMedicineFragment" -> {
+                        val f = supportFragmentManager.findFragmentByTag("AddMedicineFragment")
+                        if (f != null) {
+                            supportFragmentManager.beginTransaction().remove(f).commit()
+                        }
+                    }
+                    else -> {
+                        super.onBackPressed()
+                    }
+                }
+            }
+        } else {
+            super.onBackPressed()
         }
     }
 }
