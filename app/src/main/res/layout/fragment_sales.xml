@@ -8,48 +8,42 @@
     android:background="@color/white"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".fragments.AddMedicineFragment">
+    tools:context=".fragments.SalesFragment">
 
     <EditText
-        android:id="@+id/name_et"
-        android:layout_width="wrap_content"
+        android:id="@+id/medicine_name_et"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Name"
+        android:hint="Medicine Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/is_h1_et"
-        android:layout_width="wrap_content"
+        android:id="@+id/medicine_stk_et"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:digits="01"
-        android:inputType="numberSigned"
-        android:hint="isH1"
+        android:hint="stock"
+        app:layout_constraintTop_toBottomOf="@id/medicine_name_et"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_et" />
-
-    <EditText
-        android:id="@+id/divisor_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:hint="Divisor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/is_h1_et" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/sale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Sale"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/purple_200"
+        app:layout_constraintBottom_toTopOf="@+id/sale"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divisor_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/medicine_stk_et" />
 </androidx.constraintlayout.widget.ConstraintLayout>

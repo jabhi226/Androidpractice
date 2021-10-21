@@ -46,7 +46,7 @@ class ShowAllMedicineFragment : Fragment() {
     private lateinit var medicineViewModel: MedicineViewModel
     private fun initViewModel() {
         medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
-        medicineViewModel.allMedicines?.observe(this, Observer {
+        medicineViewModel.allMedicines?.observe(viewLifecycleOwner, Observer {
             tempList = it as ArrayList<Medicine>
             adapter?.submitList(it)
         })

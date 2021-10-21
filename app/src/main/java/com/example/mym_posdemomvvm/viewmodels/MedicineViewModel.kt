@@ -9,9 +9,11 @@ import com.example.mym_posdemomvvm.repository.RetailerDbRepository
 class MedicineViewModel(application: Application) : AndroidViewModel(application) {
     var repository: RetailerDbRepository? = null
     var allMedicines: LiveData<List<Medicine>>? = null
+    var allMedicinesContains: LiveData<List<Medicine>>? = null
 
     init {
         repository = RetailerDbRepository(application)
         allMedicines = repository?.getAllMedicines()
+        allMedicinesContains = repository?.getAllMedicinesContains()
     }
 }

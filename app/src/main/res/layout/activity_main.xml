@@ -29,37 +29,31 @@
             android:id="@+id/sales"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sales"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Sales"/>
 
         <Button
             android:id="@+id/purchase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Purchase"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sales" />
+            android:text="Purchase"/>
 
         <Button
             android:id="@+id/add_medicine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Medicine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/purchase" />
+            android:text="Add Medicine"/>
 
         <Button
             android:id="@+id/show_all_medicines"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show ALl Medicine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_medicine" />
+            android:text="Show ALl Medicine"/>
+
+        <Button
+            android:id="@+id/show_medicines_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Medicine Stock"/>
 
     </LinearLayout>
 

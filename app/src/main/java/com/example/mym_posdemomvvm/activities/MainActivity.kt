@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mym_posdemomvvm.databinding.ActivityMainBinding
 import com.example.mym_posdemomvvm.fragments.AddMedicineFragment
+import com.example.mym_posdemomvvm.fragments.SalesFragment
 import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
 
@@ -46,7 +47,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             binding.sales.id -> {
-
+                val fm = supportFragmentManager.beginTransaction()
+                fm.replace(binding.mainFrame.id, SalesFragment(), "SalesFragment")
+                fm.commit()
             }
             binding.purchase.id -> {
 
@@ -71,6 +74,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 when (it.javaClass.simpleName) {
                     "ShowAllMedicineFragment" -> {
                         val f = supportFragmentManager.findFragmentByTag("ShowAllMedicineFragment")
+                        if (f != null) {
+                            supportFragmentManager.beginTransaction().remove(f).commit()
+                        }
+                    }
+                    "SalesFragment" -> {
+                        val f = supportFragmentManager.findFragmentByTag("SalesFragment")
                         if (f != null) {
                             supportFragmentManager.beginTransaction().remove(f).commit()
                         }

@@ -10,6 +10,7 @@ import com.example.mym_posdemomvvm.roomDb.RetailerDb
 class RetailerDbRepository(application: Application) {
     private var medicineDoa: MedicineDao? = null
     private var allMedicine: LiveData<List<Medicine>>? = null
+    private var getMedicineContains: LiveData<List<Medicine>>? = null
 
     init {
         val retailerDb = RetailerDb.getInstance(application)
@@ -37,6 +38,17 @@ class RetailerDbRepository(application: Application) {
             Log.d("THREAD: ", "delete -> ${Thread.currentThread().id} -> ${Thread.currentThread().name}")
             medicineDoa?.delete(medicine)
         }.start()
+    }
+
+    fun medicineContains(name: String){
+        Thread {
+            Log.d("THREAD: ", "delete -> ${Thread.currentThread().id} -> ${Thread.currentThread().name}")
+            getMedicineContains = medicineDoa?.getMedicinesContains(name)
+        }.start()
+    }
+
+    fun getAllMedicinesContains(): LiveData<List<Medicine>>?{
+        return getMedicineContains
     }
 
     @JvmName("getAllMedicines1")

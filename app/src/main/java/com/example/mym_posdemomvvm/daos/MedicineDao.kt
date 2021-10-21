@@ -17,4 +17,7 @@ interface MedicineDao {
 
     @Query("SELECT * FROM medicines")
     fun getAllMedicines(): LiveData<List<Medicine>>
+
+    @Query("SELECT * FROM medicines WHERE name LIKE '%' || :name || '%'")
+    fun getMedicinesContains(name: String): LiveData<List<Medicine>>
 }
