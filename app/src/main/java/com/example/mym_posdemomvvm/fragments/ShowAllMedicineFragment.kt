@@ -13,15 +13,14 @@ import com.example.mym_posdemomvvm.databinding.FragmentShowAllMedicineBinding
 import com.example.mym_posdemomvvm.models.Medicine
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
 
-class ShowAllMedicineFragment : Fragment() {
+class ShowAllMedicineFragment(private val type: String) : Fragment() {
 
     private var mBinding: FragmentShowAllMedicineBinding? = null
     private val binding get() = mBinding
 
     companion object {
-        fun newInstance(): ShowAllMedicineFragment {
-            return ShowAllMedicineFragment()
-        }
+        const val SHOW_ALL_MEDICINE = "SHOW_ALL_MEDICINE"
+        const val SHOW_ALL_MEDICINE_STOCK = "SHOW_ALL_MEDICINE_STOCK"
     }
 
     override fun onCreateView(
@@ -35,19 +34,19 @@ class ShowAllMedicineFragment : Fragment() {
     var adapter: MedicineListAdapter? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MedicineListAdapter()
+        adapter = MedicineListAdapter(type)
         binding?.medicineListRv?.adapter = adapter
         binding?.medicineListRv?.layoutManager = LinearLayoutManager(requireContext())
-        adapter?.submitList(tempList)
+        adapter?.submitList(allMedicinals)
         initViewModel()
     }
 
-    private var tempList = ArrayList<Medicine>()
+    private var allMedicinals = ArrayList<Medicine>()
     private lateinit var medicineViewModel: MedicineViewModel
     private fun initViewModel() {
         medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
         medicineViewModel.allMedicines?.observe(viewLifecycleOwner, Observer {
-            tempList = it as ArrayList<Medicine>
+            allMedicinals = it as ArrayList<Medicine>
             adapter?.submitList(it)
         })
     }

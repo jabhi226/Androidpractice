@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.purchase.setOnClickListener(this)
         binding.addMedicine.setOnClickListener(this)
         binding.showAllMedicines.setOnClickListener(this)
+        binding.showMedicinesStock.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -61,7 +62,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             binding.showAllMedicines.id -> {
                 val fm = supportFragmentManager.beginTransaction()
-                fm.replace(binding.mainFrame.id, ShowAllMedicineFragment(), "ShowAllMedicineFragment")
+                fm.replace(binding.mainFrame.id, ShowAllMedicineFragment(ShowAllMedicineFragment.SHOW_ALL_MEDICINE), "ShowAllMedicineFragment")
+                fm.commit()
+            }
+            binding.showMedicinesStock.id -> {
+                val fm = supportFragmentManager.beginTransaction()
+                fm.replace(binding.mainFrame.id, ShowAllMedicineFragment(ShowAllMedicineFragment.SHOW_ALL_MEDICINE_STOCK), "ShowAllMedicineFragment")
                 fm.commit()
             }
         }

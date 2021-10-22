@@ -15,9 +15,12 @@ interface MedicineDao {
     @Delete
     fun delete(m: Medicine)
 
-    @Query("SELECT * FROM medicines")
+    @Query("SELECT * FROM MEDICINES")
     fun getAllMedicines(): LiveData<List<Medicine>>
 
-    @Query("SELECT * FROM medicines WHERE name LIKE '%' || :name || '%'")
+    @Query("SELECT * FROM MEDICINES WHERE LOWER(name) LIKE '%' || :name || '%'")
     fun getMedicinesContains(name: String): LiveData<List<Medicine>>
+
+    @Query("UPDATE MEDICINES SET stock = :stock WHERE id = :medicineId")
+    fun updateMedicineStock(stock: Int, medicineId: Int)
 }

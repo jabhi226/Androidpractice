@@ -23,7 +23,7 @@ class SaleMedicineListAdapter: ListAdapter<Medicine, SaleMedicineListAdapter.Vie
         fun bindData(medicine: Medicine?) {
             item.apply {
                 if (medicine != null) {
-                    saleMedicine.text = medicine.id.toString() + " | " + medicine.name
+                    saleMedicine.text = medicine.id.toString() + " | " + medicine.name + " | " + medicine.stock.toString()
                 }
             }
         }

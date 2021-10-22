@@ -9,7 +9,8 @@ import androidx.room.PrimaryKey
 class Medicine(
     var name: String,
     var isH1: Boolean,
-    var divisor: Int
+    var divisor: Int,
+    var stock: Int = 0
 ) : Parcelable {
 
     @PrimaryKey(autoGenerate = true)
@@ -18,6 +19,7 @@ class Medicine(
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
         parcel.readByte() != 0.toByte(),
+        parcel.readInt(),
         parcel.readInt()
     ) {
         id = parcel.readInt()
@@ -27,6 +29,7 @@ class Medicine(
         parcel.writeString(name)
         parcel.writeByte(if (isH1) 1 else 0)
         parcel.writeInt(divisor)
+        parcel.writeInt(stock)
         parcel.writeInt(id)
     }
 
