@@ -10,18 +10,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mym_posdemomvvm.interfaces.OnSaleListener
 import com.example.mym_posdemomvvm.adapters.SaleMedicineListAdapter
 import com.example.mym_posdemomvvm.databinding.FragmentSalesBinding
-import com.example.mym_posdemomvvm.models.Medicine
-import com.example.mym_posdemomvvm.repository.RetailerDbRepository
 import com.example.mym_posdemomvvm.utils.Utils
+import com.example.mym_posdemomvvm.viewmodels.ManufactureViewModel
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
 
-class SalesFragment : Fragment(), View.OnClickListener, OnSaleListener {
+class SalesFragment : Fragment(), View.OnClickListener {
 
     private var mBinding: FragmentSalesBinding? = null
     private val binding get() = mBinding
+
+    private var medicineViewModel: MedicineViewModel? = null
+
+    private var adapter: SaleMedicineListAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,23 +35,46 @@ class SalesFragment : Fragment(), View.OnClickListener, OnSaleListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initTextWatcher()
         initViewModel()
+        setRecycler()
+        initTextWatcher()
     }
 
-    private var medicineViewModel: MedicineViewModel? = null
-    private var medicineListWithName = ArrayList<Medicine>()
+    override fun onDestroyView() {
+        mBinding = null
+        super.onDestroyView()
+    }
+
+    private fun setRecycler() {
+        if (adapter == null) {
+            adapter = SaleMedicineListAdapter()
+            binding?.recyclerView?.adapter = adapter
+            binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
     private fun initViewModel() {
         medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
-        medicineViewModel?.allMedicineContains?.observe(viewLifecycleOwner, {
-            Log.d("SALE_LOG_UPDATE", it.size.toString())
-            medicineListWithName = it as ArrayList<Medicine>
-            adapter?.submitList(it)
+        medicineViewModel?.allMedicinesContains?.observe(viewLifecycleOwner, {
+            if (it != null){
+                Log.d("SALE_LOG_UPDATE ", "" + it.size)
+                Utils.showToast(requireContext(), "List Size ${it.size}")
+                adapter?.submitList(it)
+            }
+            else {
+                Utils.showToast(requireContext(), "Empty List")
+            }
         })
+
+//        medicineViewModel?.repositoryMPos?.allMedicineContains?.observe(viewLifecycleOwner, {
+//            if (it != null){
+//                Log.d("SALE_LOG_UPDATE ", "" + it.size)
+//                adapter?.submitList(it)
+//            }
+//        })
     }
 
     private fun initTextWatcher() {
-        RetailerDbRepository.onSaleListener = this
         binding?.medicineNameEt?.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -58,7 +83,8 @@ class SalesFragment : Fragment(), View.OnClickListener, OnSaleListener {
                 if (s !== null){
                     if (s.length > 2){
                         binding?.recyclerView?.visibility = View.VISIBLE
-                        setMedicineListAdapter(s.toString())
+//                        medicineViewModel?.repositoryMPos?.getAllMedicinesContains(s.toString().lowercase())
+                        medicineViewModel?.updateAllMedicineContains(s.toString().lowercase())
                     } else {
                         binding?.recyclerView?.visibility = View.GONE
                     }
@@ -70,30 +96,8 @@ class SalesFragment : Fragment(), View.OnClickListener, OnSaleListener {
         })
     }
 
-    private var adapter: SaleMedicineListAdapter? = null
-    private fun setMedicineListAdapter(name: String) {
-        Log.d("SALE_LOG", name)
-        medicineViewModel?.repository?.medicineContains(name.lowercase())
-        if (adapter == null){
-            adapter = SaleMedicineListAdapter()
-            binding?.recyclerView?.adapter = adapter
-            binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
-        }
-        adapter?.submitList(medicineListWithName)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mBinding = null
-    }
-
     override fun onClick(v: View?) {
 
-    }
-
-    override fun showMedicineWithStock() {
-        Log.d("SALE_LOG", medicineListWithName.size.toString())
-        adapter?.submitList(medicineListWithName)
     }
 
 }

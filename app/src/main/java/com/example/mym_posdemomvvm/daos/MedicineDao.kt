@@ -19,7 +19,8 @@ interface MedicineDao {
     fun getAllMedicines(): LiveData<List<Medicine>>
 
     @Query("SELECT * FROM MEDICINES WHERE LOWER(name) LIKE '%' || :name || '%'")
-    fun getMedicinesContains(name: String): LiveData<List<Medicine>>
+//    @Query("SELECT * FROM MEDICINES WHERE :name = :name")
+    fun getMedicinesContains(name: String): LiveData<List<Medicine>>?
 
     @Query("UPDATE MEDICINES SET stock = :stock WHERE id = :medicineId")
     fun updateMedicineStock(stock: Int, medicineId: Int)

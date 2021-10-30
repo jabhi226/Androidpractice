@@ -10,7 +10,8 @@ class Medicine(
     var name: String,
     var isH1: Boolean,
     var divisor: Int,
-    var stock: Int = 0
+    var stock: Int = 0,
+    var manufactureId: Int?
 ) : Parcelable {
 
     @PrimaryKey(autoGenerate = true)
@@ -20,7 +21,8 @@ class Medicine(
         parcel.readString().toString(),
         parcel.readByte() != 0.toByte(),
         parcel.readInt(),
-        parcel.readInt()
+        parcel.readInt(),
+        parcel.readValue(Int::class.java.classLoader) as? Int
     ) {
         id = parcel.readInt()
     }
@@ -30,6 +32,7 @@ class Medicine(
         parcel.writeByte(if (isH1) 1 else 0)
         parcel.writeInt(divisor)
         parcel.writeInt(stock)
+        parcel.writeValue(manufactureId)
         parcel.writeInt(id)
     }
 

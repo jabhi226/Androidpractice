@@ -5,20 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:elevation="-2dp"
     tools:context=".activities.MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/main_frame"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <LinearLayout
+        android:id="@+id/activity"
         android:gravity="center_horizontal"
-        android:elevation="-2dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,6 +47,21 @@
             android:layout_height="wrap_content"
             android:text="Show Medicine Stock"/>
 
+        <Button
+            android:id="@+id/manufacture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="manufacture"/>
+
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_frame"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

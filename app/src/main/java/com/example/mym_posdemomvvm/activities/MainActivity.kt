@@ -2,20 +2,17 @@ package com.example.mym_posdemomvvm.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.mym_posdemomvvm.databinding.ActivityMainBinding
 import com.example.mym_posdemomvvm.fragments.AddMedicineFragment
+import com.example.mym_posdemomvvm.fragments.ManufacturersFragment
 import com.example.mym_posdemomvvm.fragments.SalesFragment
 import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
-import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var medicineViewModel: MedicineViewModel
+//    private lateinit var medicineViewModel: MedicineViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -26,12 +23,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initViewModel() {
-        medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
-        medicineViewModel.allMedicines?.observe(this, Observer {
-            it.forEach { medicine ->
-                Log.e("MEDICINES", "getMeds: ${medicine.name}")
-            }
-        })
+//        medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
+//        medicineViewModel.allMedicines?.observe(this, {
+//            it.forEach { medicine ->
+//                Log.e("MEDICINES", "getMeds: ${medicine.name}")
+//            }
+//        })
     }
 
     private fun getMeds() {
@@ -43,6 +40,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.addMedicine.setOnClickListener(this)
         binding.showAllMedicines.setOnClickListener(this)
         binding.showMedicinesStock.setOnClickListener(this)
+        binding.manufacture.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -70,6 +68,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 fm.replace(binding.mainFrame.id, ShowAllMedicineFragment(ShowAllMedicineFragment.SHOW_ALL_MEDICINE_STOCK), "ShowAllMedicineFragment")
                 fm.commit()
             }
+            binding.manufacture.id -> {
+                binding.activity.visibility = View.GONE
+                val fm = supportFragmentManager.beginTransaction()
+                fm.replace(binding.mainFrame.id, ManufacturersFragment(), "ManufacturersFragment")
+                fm.commit()
+            }
         }
     }
 
@@ -95,6 +99,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         if (f != null) {
                             supportFragmentManager.beginTransaction().remove(f).commit()
                         }
+                    }
+                    "ManufacturersFragment" -> {
+                        val f = supportFragmentManager.findFragmentByTag("ManufacturersFragment")
+                        if (f != null) {
+                            supportFragmentManager.beginTransaction().remove(f).commit()
+                        }
+                        binding.activity.visibility = View.VISIBLE
                     }
                     else -> {
                         super.onBackPressed()

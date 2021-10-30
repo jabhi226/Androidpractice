@@ -1,19 +1,32 @@
 package com.example.mym_posdemomvvm.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
+import android.util.Log
+import androidx.lifecycle.*
+import com.example.mym_posdemomvvm.models.Manufacture
 import com.example.mym_posdemomvvm.models.Medicine
-import com.example.mym_posdemomvvm.repository.RetailerDbRepository
+import com.example.mym_posdemomvvm.repository.MPosRetailerDbRepository
+import com.example.mym_posdemomvvm.utils.Utils
+import java.util.jar.Attributes
 
-class MedicineViewModel(application: Application) : AndroidViewModel(application) {
-    var repository: RetailerDbRepository? = null
+class MedicineViewModel(application: Application) : AndroidViewModel(application){
+    var repositoryMPos: MPosRetailerDbRepository = MPosRetailerDbRepository(application)
+
     var allMedicines: LiveData<List<Medicine>>? = null
-    var allMedicineContains: LiveData<List<Medicine>>? = null
+    var allMedicinesContains: MutableLiveData<List<Medicine>?>? = null
+    var allManufactures: LiveData<List<Manufacture>>? = null
+
+    fun updateAllMedicineContains(name: String){
+        Log.d("SALE_LOG_UPDATE: ", name)
+        Utils.showToast(getApplication(), name)
+//        val a = repositoryMPos.getAllMedicinesContains(name)?.value
+//        allMedicinesContains?.value = a
+        allMedicinesContains?.value = repositoryMPos.getAllMedicines()?.value
+    }
 
     init {
-        repository = RetailerDbRepository(application)
-        allMedicines = repository?.getAllMedicines()
-        allMedicineContains = repository?.getAllMedicinesContains()
+        allMedicines = repositoryMPos.getAllMedicines()
+        allMedicinesContains?.value = repositoryMPos.getAllMedicines()?.value
+        allManufactures = repositoryMPos.getAllManufactures()
     }
 }

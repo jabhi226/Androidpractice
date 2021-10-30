@@ -12,10 +12,11 @@
 
     <EditText
         android:id="@+id/name_et"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:imeOptions="actionNext"
         android:hint="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,11 +24,13 @@
 
     <EditText
         android:id="@+id/is_h1_et"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:digits="01"
-        android:inputType="numberSigned"
+        android:maxLength="1"
+        android:inputType="number"
+        android:imeOptions="actionNext"
         android:hint="isH1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,21 +38,33 @@
 
     <EditText
         android:id="@+id/divisor_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
         android:hint="Divisor"
+        android:imeOptions="actionNext"
+        android:maxLength="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/is_h1_et" />
+
+    <Spinner
+        android:id="@+id/manufacture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divisor_tv"
+        android:layout_width="match_parent"
+        android:minHeight="40dp"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divisor_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/manufacture" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mym_posdemomvvm.adapters.MedicineListAdapter
@@ -45,14 +44,14 @@ class ShowAllMedicineFragment(private val type: String) : Fragment() {
     private lateinit var medicineViewModel: MedicineViewModel
     private fun initViewModel() {
         medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
-        medicineViewModel.allMedicines?.observe(viewLifecycleOwner, Observer {
+        medicineViewModel.allMedicines?.observe(viewLifecycleOwner, {
             allMedicinals = it as ArrayList<Medicine>
             adapter?.submitList(it)
         })
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         mBinding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 }

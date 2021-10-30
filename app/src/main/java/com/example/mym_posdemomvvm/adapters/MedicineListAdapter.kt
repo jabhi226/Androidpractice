@@ -27,7 +27,7 @@ class MedicineListAdapter(private val type: String) : ListAdapter<Medicine, Medi
     class MedicineViewHolder(private val item: ItemMedicineItemBinding) : RecyclerView.ViewHolder(item.root) {
         fun showAllMedicines(medicine: Medicine) {
             this.item.apply {
-                medicineName.text = medicine.name
+                medicineName.text = medicine.name + " | " + medicine.manufactureId
                 isH1.text = medicine.isH1.toString()
                 divisor.text = medicine.divisor.toString()
             }
@@ -35,7 +35,7 @@ class MedicineListAdapter(private val type: String) : ListAdapter<Medicine, Medi
 
         fun showAllMedicinesStock(medicine: Medicine) {
             this.item.apply {
-                medicineName.text = medicine.name
+                medicineName.text = medicine.name + " | " + medicine.manufactureId
                 isH1.visibility = View.GONE
                 divisor.text = medicine.stock.toString()
             }

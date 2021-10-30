@@ -40,9 +40,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         tools:listitem="@layout/item_medicine_list_for_sale"
-        app:layout_constraintBottom_toTopOf="@+id/sale"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/medicine_stk_et" />
