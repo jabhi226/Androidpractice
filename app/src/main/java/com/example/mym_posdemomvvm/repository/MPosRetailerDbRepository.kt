@@ -80,20 +80,23 @@ class MPosRetailerDbRepository(private val application: Application) {
 //        } else {
 //            mTerminalDataLAyer.getAllMEdicineData() //mTerminal
 //        }
-        var list: ArrayList<Medicine>? = ArrayList<Medicine>()
 
-        Thread{
-            list = medicineDoa.getMedicinesContains(name)?.value as ArrayList<Medicine>?
+//        Thread{
+//            list = medicineDoa.getMedicinesContains("%$name%")?.value as ArrayList<Medicine>?
+//
+//            val mH = Handler(application.mainLooper)
+//            val run = Runnable {
+//                Log.d("SALE_LOG_UPDATE", list?.size.toString())
+//                if (list != null){
+//                    allMedicineContains?.value = list!!
+//                }
+//            }
+//            mH.post(run)
+//        }.start()
 
-            val mH = Handler(application.mainLooper)
-            val run = Runnable {
-                Log.d("SALE_LOG_UPDATE", list?.size.toString())
-                if (list != null){
-                    allMedicineContains?.value = list!!
-                }
-            }
-            mH.post(run)
-        }.start()
+        val list: List<Medicine> = medicineDoa.getMedicinesContains("%$name%")
+        Log.d("SALE_LOG_UPDATE", list.size.toString() )
+        allMedicineContains!!.value = list
         return allMedicineContains
     }
 

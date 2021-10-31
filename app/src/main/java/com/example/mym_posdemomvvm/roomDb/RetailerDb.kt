@@ -27,6 +27,7 @@ abstract class RetailerDb: RoomDatabase() {
 //                    .createFromFile(File(c.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "freshDb.sqlite"))
 //                    .createFromAsset("freshDb.sqlite")
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .addCallback(roomCallback)
                     .build()
             }

@@ -84,7 +84,7 @@ class SalesFragment : Fragment(), View.OnClickListener {
                     if (s.length > 2){
                         binding?.recyclerView?.visibility = View.VISIBLE
 //                        medicineViewModel?.repositoryMPos?.getAllMedicinesContains(s.toString().lowercase())
-                        medicineViewModel?.updateAllMedicineContains(s.toString().lowercase())
+                        medicineViewModel!!.updateAllMedicineContains(s.toString().lowercase())
                     } else {
                         binding?.recyclerView?.visibility = View.GONE
                     }

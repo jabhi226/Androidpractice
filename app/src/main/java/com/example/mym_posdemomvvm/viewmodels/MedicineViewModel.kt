@@ -13,15 +13,16 @@ class MedicineViewModel(application: Application) : AndroidViewModel(application
     var repositoryMPos: MPosRetailerDbRepository = MPosRetailerDbRepository(application)
 
     var allMedicines: LiveData<List<Medicine>>? = null
-    var allMedicinesContains: MutableLiveData<List<Medicine>?>? = null
+    var allMedicinesContains: MutableLiveData<List<Medicine>?>? = MutableLiveData()
     var allManufactures: LiveData<List<Manufacture>>? = null
 
     fun updateAllMedicineContains(name: String){
         Log.d("SALE_LOG_UPDATE: ", name)
-        Utils.showToast(getApplication(), name)
+//        Utils.showToast(getApplication(), name)
 //        val a = repositoryMPos.getAllMedicinesContains(name)?.value
 //        allMedicinesContains?.value = a
-        allMedicinesContains?.value = repositoryMPos.getAllMedicines()?.value
+//        allMedicinesContains?.value = repositoryMPos.getAllMedicines()?.value
+        allMedicinesContains!!.value = repositoryMPos.getAllMedicinesContains(name)?.value
     }
 
     init {
