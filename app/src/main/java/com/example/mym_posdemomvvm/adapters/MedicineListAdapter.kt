@@ -3,14 +3,14 @@ package com.example.mym_posdemomvvm.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mym_posdemomvvm.databinding.ItemMedicineItemBinding
 import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
 import com.example.mym_posdemomvvm.models.Medicine
 
-class MedicineListAdapter(private val type: String) : ListAdapter<Medicine, MedicineListAdapter.MedicineViewHolder>(
+class MedicineListAdapter(private val type: String) : PagingDataAdapter<Medicine, MedicineListAdapter.MedicineViewHolder>(
     object : DiffUtil.ItemCallback<Medicine>() {
     override fun areItemsTheSame(oldItem: Medicine, newItem: Medicine): Boolean {
         return oldItem.id == newItem.id
@@ -25,19 +25,19 @@ class MedicineListAdapter(private val type: String) : ListAdapter<Medicine, Medi
     lateinit var binding: ItemMedicineItemBinding
 
     class MedicineViewHolder(private val item: ItemMedicineItemBinding) : RecyclerView.ViewHolder(item.root) {
-        fun showAllMedicines(medicine: Medicine) {
+        fun showAllMedicines(medicine: Medicine?) {
             this.item.apply {
-                medicineName.text = medicine.name + " | " + medicine.manufactureId
-                isH1.text = medicine.isH1.toString()
-                divisor.text = medicine.divisor.toString()
+                medicineName.text = medicine?.id.toString() + " | " + medicine?.name + " | " + medicine?.manufactureId
+                isH1.text = medicine?.isH1.toString()
+                divisor.text = medicine?.divisor.toString()
             }
         }
 
-        fun showAllMedicinesStock(medicine: Medicine) {
+        fun showAllMedicinesStock(medicine: Medicine?) {
             this.item.apply {
-                medicineName.text = medicine.name + " | " + medicine.manufactureId
+                medicineName.text = medicine?.name + " | " + medicine?.manufactureId
                 isH1.visibility = View.GONE
-                divisor.text = medicine.stock.toString()
+                divisor.text = medicine?.stock.toString()
             }
         }
     }

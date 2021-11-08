@@ -30,7 +30,7 @@ class SaleMedicineListAdapter: ListAdapter<Medicine, SaleMedicineListAdapter.Vie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemMedicineListForSaleBinding.inflate(LayoutInflater.from(parent.context)))
+        return ViewHolder(ItemMedicineListForSaleBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

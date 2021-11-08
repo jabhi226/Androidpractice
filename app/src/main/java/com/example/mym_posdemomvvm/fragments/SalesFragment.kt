@@ -49,7 +49,7 @@ class SalesFragment : Fragment(), View.OnClickListener {
         if (adapter == null) {
             adapter = SaleMedicineListAdapter()
             binding?.recyclerView?.adapter = adapter
-            binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+            binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext(),)
         }
     }
 

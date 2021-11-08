@@ -116,4 +116,37 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             super.onBackPressed()
         }
     }
+
+    fun minCostToMoveChips1(position: IntArray): Int {
+        var occ = 0
+        position.distinct().forEach { num ->
+            var a = 0
+            position.sorted().forEach {
+                if (it > num)
+                    return@forEach
+                if (it == num)
+                    a++
+            }
+            print("$num | $a")
+            if (a > occ)
+                occ = a
+            println(" | $occ")
+        }
+        return occ
+    }
+    fun minCostToMoveChips(position: IntArray): Int {
+        var max = 0
+        position.distinct().forEach { num ->
+            var current = 0
+            position.sortedArray().forEach {
+                if (num == it){
+                    current++
+                }
+            }
+            if (current > max){
+                max = current
+            }
+        }
+        return position.size - max
+    }
 }

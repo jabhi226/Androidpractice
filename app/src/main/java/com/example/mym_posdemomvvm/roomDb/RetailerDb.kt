@@ -38,11 +38,28 @@ abstract class RetailerDb: RoomDatabase() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
                 Thread{
-                    val medDao = instance?.medicineDao
-//                    medDao?.insert(Medicine("Dolo 650",false,15,manufactureId = 0))
-//                    medDao?.insert(Medicine("Crocin 650",false,15,manufactureId = 0))
-//                    medDao?.insert(Medicine("Calpol 100",false,10,manufactureId = 0))
-//                    medDao?.insert(Medicine("Zifi 650",true,10,manufactureId = 0))
+                    val manufactureDao = instance?.manufactureDao
+                    manufactureDao?.insertManufacture(
+                        Manufacture(
+                        "Cipla private LTD",
+                        "admin.cipla.com",
+                        "cipla.com",
+                        isGlobal = false,
+                        isActive = true
+                        ))
+
+                    val medicineDao = instance?.medicineDao
+                    for (i in 1..300000){
+                        medicineDao?.insert(
+                            Medicine(
+                                "Crocin 650 Advance",
+                                false,
+                                15,
+                                0,
+                                1
+                            )
+                        )
+                    }
                 }.start()
             }
         }

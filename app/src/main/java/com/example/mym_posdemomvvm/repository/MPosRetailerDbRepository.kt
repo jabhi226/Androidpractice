@@ -1,39 +1,54 @@
 package com.example.mym_posdemomvvm.repository
 
 import android.app.Application
+import android.os.AsyncTask
 import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.paging.*
 import com.example.mym_posdemomvvm.daos.ManufactureDao
 import com.example.mym_posdemomvvm.daos.MedicineDao
 import com.example.mym_posdemomvvm.datalayer.MPOSDataLayer
 import com.example.mym_posdemomvvm.models.Manufacture
 import com.example.mym_posdemomvvm.models.Medicine
 import com.example.mym_posdemomvvm.roomDb.RetailerDb
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
+import java.util.concurrent.Callable
+import javax.sql.DataSource
 
 /**
  * Repo is a simple class which provide a clean API to access all dos.
  */
 class MPosRetailerDbRepository(private val application: Application) {
     private val retailerDb = RetailerDb.getInstance(application)
-    var medicineDoa: MedicineDao = retailerDb.medicineDao
+    private var medicineDoa: MedicineDao = retailerDb.medicineDao
     private var manufactureDao: ManufactureDao = retailerDb.manufactureDao
 
     private var allMedicine: LiveData<List<Medicine>>? = medicineDoa.getAllMedicines()
+    var allPagedMedicine: Flow<PagingData<Medicine>>? = null
     private var allManufactures: LiveData<List<Manufacture>>? = manufactureDao.getAllManufactures()
 
     private var mPosDataLayer : MPOSDataLayer = MPOSDataLayer()
     var allMedicineContains: MutableLiveData<List<Medicine>>? = MutableLiveData()
 
-//    init {
-//        val retailerDb = RetailerDb.getInstance(application)
-//        medicineDoa = retailerDb.medicineDao
-//        manufactureDao = retailerDb.manufactureDao
-//        allManufactures = manufactureDao.getAllManufactures()
-//    }
+    init {
+        allPagedMedicine = Pager(
+            PagingConfig(
+                pageSize = 50,
+                enablePlaceholders = true,
+                maxSize = 300
+            )
+        ) {
+            medicineDoa.getAllPagedMedicines()
+        }.flow
+
+        allManufactures = manufactureDao.getAllManufactures()
+    }
 
     fun insert(medicine: Medicine) {
         Thread {
@@ -45,14 +60,14 @@ class MPosRetailerDbRepository(private val application: Application) {
     fun update(medicine: Medicine) {
         Thread {
             Log.d("THREAD: ", "update -> ${Thread.currentThread().id} -> ${Thread.currentThread().name}")
-            medicineDoa?.update(medicine)
+            medicineDoa.update(medicine)
         }.start()
     }
 
     fun delete(medicine: Medicine) {
         Thread {
             Log.d("THREAD: ", "delete -> ${Thread.currentThread().id} -> ${Thread.currentThread().name}")
-            medicineDoa?.delete(medicine)
+            medicineDoa.delete(medicine)
         }.start()
     }
 
@@ -102,7 +117,12 @@ class MPosRetailerDbRepository(private val application: Application) {
 
     @JvmName("getAllMedicines1")
     fun getAllMedicines(): LiveData<List<Medicine>>?{
+        allMedicine?.observeForever { Log.d("MEDICINE_SIZE", it.size.toString()) }
         return allMedicine
+    }
+
+    fun getAllMedicinesFromPaging(): Flow<PagingData<Medicine>>?{
+        return allPagedMedicine
     }
 
     fun insertManufacture(m: Manufacture){

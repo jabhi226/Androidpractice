@@ -13,10 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.view.allViews
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.example.mym_posdemomvvm.databinding.FragmentManufacturesBinding
 import com.example.mym_posdemomvvm.databinding.ItemMedicineItemBinding
 import com.example.mym_posdemomvvm.models.Manufacture

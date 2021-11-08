@@ -18,6 +18,9 @@ class AddMedicineFragment : Fragment(), View.OnClickListener {
 
     private var mBinding: FragmentAddMedicineBinding? = null
     private val binding get() = mBinding
+
+    private var medicineViewModel: MedicineViewModel? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,7 +70,6 @@ class AddMedicineFragment : Fragment(), View.OnClickListener {
         binding?.button?.setOnClickListener(this)
     }
 
-    private var medicineViewModel: MedicineViewModel? = null
     private fun initViewModel() {
         medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
         medicineViewModel?.allManufactures?.observe(viewLifecycleOwner, {
