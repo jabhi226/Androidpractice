@@ -3,7 +3,9 @@ package com.example.mym_posdemomvvm.daos
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.*
+import com.example.mym_posdemomvvm.models.GenericRB
 import com.example.mym_posdemomvvm.models.Medicine
+import com.example.mym_posdemomvvm.models.Medicine1
 
 @Dao
 interface MedicineDao {
@@ -18,6 +20,12 @@ interface MedicineDao {
 
     @Query("SELECT * FROM MEDICINES")
     fun getAllMedicines(): LiveData<List<Medicine>>
+
+    @Query("SELECT * FROM GEN")
+    fun getAllGenericOfRedBook(): LiveData<List<GenericRB>>
+
+//    @Query("SELECT * FROM 'public.pe_catalog'")
+//    fun getAllMedicinesOfRedBook(): LiveData<List<Medicine1>>
 
     @Query("SELECT * FROM MEDICINES")
     fun getAllPagedMedicines(): PagingSource<Int, Medicine>

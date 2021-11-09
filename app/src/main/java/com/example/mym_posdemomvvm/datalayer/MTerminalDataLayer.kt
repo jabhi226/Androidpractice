@@ -2,6 +2,6 @@
 //
 //class MTerminalDataLayer {
 //
-//    private var medicineService: MTerminalServiceLayer? = null
+//    private var medicineService: MTerminalServiceLayer = "null"
 //
 //}

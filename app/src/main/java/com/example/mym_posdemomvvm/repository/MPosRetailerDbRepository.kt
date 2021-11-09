@@ -13,6 +13,7 @@ import com.example.mym_posdemomvvm.daos.MedicineDao
 import com.example.mym_posdemomvvm.datalayer.MPOSDataLayer
 import com.example.mym_posdemomvvm.models.Manufacture
 import com.example.mym_posdemomvvm.models.Medicine
+import com.example.mym_posdemomvvm.models.Medicine1
 import com.example.mym_posdemomvvm.roomDb.RetailerDb
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,7 @@ class MPosRetailerDbRepository(private val application: Application) {
     private var manufactureDao: ManufactureDao = retailerDb.manufactureDao
 
     private var allMedicine: LiveData<List<Medicine>>? = medicineDoa.getAllMedicines()
+//    private var allMedicineOfRedBook: LiveData<List<Medicine1>>? = medicineDoa.getAllMedicinesOfRedBook()
     var allPagedMedicine: Flow<PagingData<Medicine>>? = null
     private var allManufactures: LiveData<List<Manufacture>>? = manufactureDao.getAllManufactures()
 
@@ -48,6 +50,7 @@ class MPosRetailerDbRepository(private val application: Application) {
         }.flow
 
         allManufactures = manufactureDao.getAllManufactures()
+//        Log.d("allMedicineOfRedBook: ", "${allMedicineOfRedBook?.value?.size}")
     }
 
     fun insert(medicine: Medicine) {
