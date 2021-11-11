@@ -9,10 +9,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.mym_posdemomvvm.R
 import com.example.mym_posdemomvvm.databinding.FragmentAddMedicineBinding
 import com.example.mym_posdemomvvm.models.Medicine
+import com.example.mym_posdemomvvm.models.Medicine1
+import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class AddMedicineFragment : Fragment(), View.OnClickListener {
 
@@ -84,6 +89,15 @@ class AddMedicineFragment : Fragment(), View.OnClickListener {
                 manufactureAdapter?.notifyDataSetChanged()
             }
         })
+        lifecycleScope.launch {
+            medicineViewModel?.allMedicinesFromPagingOfRedBook?.collectLatest {
+                Utils.showToast(requireContext(), "Data Inserted!!")
+                medicineViewModel?.updateAllMedicinesCountOfRedBook()
+            }
+        }
+        medicineViewModel?.allMedicinesCountOfRedBook?.observe(viewLifecycleOwner, {
+            binding?.button?.text = it.toString()
+        })
 //        medicineViewModel?.allMedicines?.observe(viewLifecycleOwner, {
 //            it?.forEach { medicine ->
 ////                Utils.showToast(requireContext(), medicine.name)
@@ -104,14 +118,50 @@ class AddMedicineFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             binding?.button?.id -> {
-                medicineViewModel?.repositoryMPos?.insert(
-                    Medicine(
-                        binding?.nameEt?.text.toString(),
-                        binding?.isH1Et?.text.toString().toInt() != 0,
-                        binding?.divisorTv?.text.toString().toInt(),
-                        manufactureId = manufactureId
+//                medicineViewModel?.repositoryMPos?.insert(
+//                    Medicine(
+//                        binding?.nameEt?.text.toString(),
+//                        binding?.isH1Et?.text.toString().toInt() != 0,
+//                        binding?.divisorTv?.text.toString().toInt(),
+//                        manufactureId = manufactureId
+//                    )
+//                )
+                for (i in 1..1){
+                    medicineViewModel?.repositoryMPos?.insert(
+                        Medicine1(
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            binding?.nameEt?.text.toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            binding?.isH1Et?.text.toString().toInt(),
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            "100",
+                            java.util.UUID.randomUUID().toString(),
+                            100,
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            binding?.divisorTv?.text.toString().toInt(),
+                            100,
+                            100,
+                            100,
+                            100,
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            100,
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+                            java.util.UUID.randomUUID().toString(),
+//                            java.util.UUID.randomUUID().toString(),
+//                            100
+                        )
                     )
-                )
+                }
             }
         }
     }

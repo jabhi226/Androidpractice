@@ -1,6 +1,7 @@
 package com.example.mym_posdemomvvm.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mym_posdemomvvm.adapters.MedicineListAdapter
+import com.example.mym_posdemomvvm.adapters.MedicineListAdapterOfRedBook
 import com.example.mym_posdemomvvm.databinding.FragmentShowAllMedicineBinding
 import com.example.mym_posdemomvvm.models.Medicine
 import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlin.coroutines.suspendCoroutine
 
 class ShowAllMedicineFragment(private val type: String) : Fragment() {
 
@@ -38,11 +39,13 @@ class ShowAllMedicineFragment(private val type: String) : Fragment() {
         return binding?.root
     }
 
-    var adapter: MedicineListAdapter? = null
+//    private var adapter: MedicineListAdapter? = null
+    var tempAdapter: MedicineListAdapterOfRedBook? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MedicineListAdapter(type)
-        binding?.medicineListRv?.adapter = adapter
+//        adapter = MedicineListAdapter(type)
+        tempAdapter = MedicineListAdapterOfRedBook(type)
+        binding?.medicineListRv?.adapter = tempAdapter
         binding?.medicineListRv?.layoutManager = LinearLayoutManager(requireContext())
 //        adapter?.submitList(allMedicinals)
         initViewModel()
@@ -58,15 +61,28 @@ class ShowAllMedicineFragment(private val type: String) : Fragment() {
 //            Utils.showToast(requireContext(), allMedicinals.size.toString())
 //            adapter?.submitList(it)
 //        })
+
+//        lifecycleScope.launch {
+//            medicineViewModel.allMedicinesFromPaging?.collectLatest {
+//                allMedicinePagingData = it
+//                if (allMedicinePagingData != null){
+////                    adapter?.submitData(allMedicinePagingData!!)
+////                    Utils.showToast(requireContext(), allMedicinePagingData!!.toString() )
+//                }
+//            }
         lifecycleScope.launch {
-            medicineViewModel.allMedicinesFromPaging?.collectLatest {
-                allMedicinePagingData = it
-                if (allMedicinePagingData != null){
-                    adapter?.submitData(allMedicinePagingData!!)
-//                    Utils.showToast(requireContext(), allMedicinePagingData!!.toString() )
-                }
+            medicineViewModel.allMedicinesFromPagingOfRedBook?.collectLatest {
+                tempAdapter?.submitData(it)
             }
         }
+//        medicineViewModel.allMedicinesFromPagingOfRedBookLiveDat.observe(viewLifecycleOwner, {
+//            lifecycleScope.launch {
+//                if (it != null){
+//                    tempAdapter?.submitData(it)
+//                }
+//            }
+//        })
+//        }
     }
 
     override fun onDestroyView() {

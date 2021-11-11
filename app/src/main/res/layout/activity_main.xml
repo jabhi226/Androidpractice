@@ -53,6 +53,12 @@
             android:layout_height="wrap_content"
             android:text="manufacture"/>
 
+        <Button
+            android:id="@+id/export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Export"/>
+
     </LinearLayout>
 
     <RelativeLayout

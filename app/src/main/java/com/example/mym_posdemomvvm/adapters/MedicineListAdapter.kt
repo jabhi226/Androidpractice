@@ -1,5 +1,6 @@
 package com.example.mym_posdemomvvm.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mym_posdemomvvm.databinding.ItemMedicineItemBinding
 import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
 import com.example.mym_posdemomvvm.models.Medicine
+import com.example.mym_posdemomvvm.models.Medicine1
 
 class MedicineListAdapter(private val type: String) : PagingDataAdapter<Medicine, MedicineListAdapter.MedicineViewHolder>(
     object : DiffUtil.ItemCallback<Medicine>() {
@@ -56,5 +58,47 @@ class MedicineListAdapter(private val type: String) : PagingDataAdapter<Medicine
                 holder.showAllMedicinesStock(getItem(position))
             }
         }
+    }
+}
+
+
+class MedicineListAdapterOfRedBook(private val type: String) : PagingDataAdapter<Medicine1, MedicineListAdapterOfRedBook.TempHolder>(
+    object: DiffUtil.ItemCallback<Medicine1>(){
+        override fun areItemsTheSame(oldItem: Medicine1, newItem: Medicine1): Boolean {
+            return oldItem.productUcode == newItem.productUcode
+        }
+
+        override fun areContentsTheSame(oldItem: Medicine1, newItem: Medicine1): Boolean {
+            return oldItem == newItem
+        }
+
+    }
+) {
+    private lateinit var binding1: ItemMedicineItemBinding
+
+    class TempHolder(private val viewItem: ItemMedicineItemBinding) : RecyclerView.ViewHolder(viewItem.root) {
+        fun bind(medicine: Medicine1?, p: Int) {
+            if (medicine != null)
+                viewItem.medicineName.text = medicine.productUcode.toString() + " | " + medicine.productName + " | " + medicine.packformName.toString() + " | " + medicine.packeQuantityValue.toString() + " | " + medicine.manufacturer.toString() + " | " + medicine.manufacturerId.toString()
+
+//            viewItem.medicineName.text = item?.productName
+//            viewItem.divisor.text = item?.productName.toString() + "  |  " + p.toString()
+//            viewItem.isH1.text = item?.composition
+            medicine.let {
+                if (it != null){
+                    Log.d("BULK_TESTING_DATA: ", "${it.productUcode} | ${it.productType} | ${it.productName} | ${it.composition} | ${it.schedule} | ${it.productHsnCode}")
+                }
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TempHolder {
+        binding1 = ItemMedicineItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TempHolder(binding1)
+    }
+
+    override fun onBindViewHolder(holder: TempHolder, position: Int) {
+        val p = position
+        holder.bind(getItem(p), p)
     }
 }

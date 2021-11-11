@@ -1,5 +1,7 @@
 package com.example.mym_posdemomvvm.roomDb
 
+import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.os.Environment
 import android.util.Log
@@ -10,73 +12,173 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.mym_posdemomvvm.daos.ManufactureDao
 import com.example.mym_posdemomvvm.daos.MedicineDao
-import com.example.mym_posdemomvvm.models.GenericRB
-import com.example.mym_posdemomvvm.models.Manufacture
-import com.example.mym_posdemomvvm.models.Medicine
-import com.example.mym_posdemomvvm.models.Medicine1
+import com.example.mym_posdemomvvm.models.*
 import com.example.mym_posdemomvvm.utils.Constants
-import java.io.*
+import com.example.mym_posdemomvvm.utils.Utils
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
 import java.lang.Exception
 
 @Database(entities = [Medicine::class,
     Manufacture::class,
     Medicine1::class,
-    GenericRB::class], version = Constants.ROOM_DB_VERSION)
+//    Demo::class,
+//    GenericRB::class,
+    Parcel::class
+                     ], version = Constants.ROOM_DB_VERSION)
 abstract class RetailerDb: RoomDatabase() {
+
+    var context: Context? = null
 
     companion object{
         private var instance: RetailerDb? = null
 
         fun getInstance(c: Context): RetailerDb{
+
             if (instance == null){
                 instance = Room.databaseBuilder(c.applicationContext, RetailerDb::class.java, Constants.ROOM_DB_NAME)
-//                    .createFromFile(File(c.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "freshDb.sqlite"))
-                    .createFromAsset("sample_fresh_db.sqlite")
-                    .createFromAsset("generic_sample.sqlite")
+//                    .createFromFile(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath, "exportedDb.sqlite"))
+//                    .createFromAsset("sample_fresh_db.sqlite")
+//                    .createFromAsset("generic_sample.sqlite")
+//                    .createFromAsset("chinook.db")
+//                    .createFromAsset("data.sqlite")
+//                    .createFromAsset("constants.db")
+//                    .createFromAsset("InitialParcelTracker.db")
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
+//                    .addMigrations(EMPTY_MIGRATION)
                     .build()
             }
+            instance!!.context = c
             return instance!!
         }
 
         private val roomCallback: Callback = object: Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                Thread{
-                    val manufactureDao = instance?.manufactureDao
-                    manufactureDao?.insertManufacture(
-                        Manufacture(
-                        "Cipla private LTD",
-                        "admin.cipla.com",
-                        "cipla.com",
-                        isGlobal = false,
-                        isActive = true
-                        ))
+                try {
+                    Thread{
+                        val manufactureDao = instance?.manufactureDao
+                        manufactureDao?.insertManufacture(
+                            Manufacture(
+                                "Cipla private LTD",
+                                "admin.cipla.com",
+                                "cipla.com",
+                                isGlobal = false,
+                                isActive = true
+                            ))
 //
-                    val medicineDao = instance?.medicineDao
-                    for (i in 1..300){
-                        medicineDao?.insert(
-                            Medicine(
-                                "Crocin 650 Advance",
-                                false,
-                                15,
-                                0,
-                                1
+                        val medicineDao = instance?.medicineDao
+//                    for (i in 1..10000){
+//                        medicineDao?.insert(
+//                            Medicine(
+//                                "Crocin 650 Advance",
+//                                false,
+//                                15,
+//                                0,
+//                                1
+//                            )
+//                        )
+//                    }
+
+                        val a = Utils.getJsonFromAssets(instance!!.context!!, "medicine.json")
+                        val array = JSONArray(a)
+                        array.length()
+                        for (i in 0 until array.length()){
+                            val currentMed = JSONObject(array[i].toString())
+                            medicineDao?.insert(
+                                Medicine1(
+                                    currentMed.getString("product_ucode"),
+                                    "",
+                                    currentMed.getString("product_name"),
+                                    currentMed.getString("packform_name"),
+                                    100,
+                                    "",
+                                    currentMed.getString("manufacturer"),
+                                    currentMed.getString("manufacturer_id"),
+                                    "",
+                                    1,
+                                    "",
+                                    "",
+                                    1,
+                                    6,
+                                    6,
+                                    12,
+                                    1,
+                                    "",
+                                    "",
+                                    "",
+                                    1,
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                )
                             )
-                        )
-                    }
-                }.start()
+                        }
+                        Log.d("DATA_LOCATION: ", a.toString())
+
+//                        medicineDao?.insert(
+//                            Medicine1(
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                100,
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                100,
+//                                java.util.UUID.randomUUID().toString(),
+//                                100,
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                100,
+//                                100,
+//                                100,
+//                                100,
+//                                100,
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                100,
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+//                                java.util.UUID.randomUUID().toString(),
+////                                java.util.UUID.randomUUID().toString(),
+////                                100
+//                            )
+//                        )
+//                    }
+                    }.start()
+                } catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
 
 
-//        val MIGRATION_1_2 = object: Migration(1, 2) {
-//            override fun migrate(database: SupportSQLiteDatabase) {
-//                database.execSQL("ALTER TABLE GenericRB DROP generic_dosage")
-//                database.execSQL("ALTER TABLE GenericRB ADD generic_dosage String")
-//            }
-//        }
+        private val MIGRATION_2_3 = object: Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE gen_temp (genericId TEXT, createdTime TEXT, created_By TEXT, deleted INTEGER, remarks TEXT, updatedTime TEXT, updatedBy TEXT, bannedOn TEXT, genericDescription TEXT, genericDosage TEXT, genericDosageNoSpace TEXT, genericName TEXT, genericType TEXT, isBanned INTEGER, isH1 INTEGER, isTB INTEGER,  PRIMARY KEY(genericId))")
+                database.execSQL("INSERT INTO gen_temp SELECT * FROM gen")
+                database.execSQL("DROP TABLE gen")
+                database.execSQL("ALTER TABLE gen_temp RENAME TO gen")
+            }
+        }
+
+        private val EMPTY_MIGRATION = object: Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
+        }
     }
 
     abstract val medicineDao: MedicineDao

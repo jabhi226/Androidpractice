@@ -2,12 +2,20 @@ package com.example.mym_posdemomvvm.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.View
 import com.example.mym_posdemomvvm.databinding.ActivityMainBinding
 import com.example.mym_posdemomvvm.fragments.AddMedicineFragment
 import com.example.mym_posdemomvvm.fragments.ManufacturersFragment
 import com.example.mym_posdemomvvm.fragments.SalesFragment
 import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
+import com.example.mym_posdemomvvm.utils.Constants
+import com.example.mym_posdemomvvm.utils.Utils
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -41,6 +49,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.showAllMedicines.setOnClickListener(this)
         binding.showMedicinesStock.setOnClickListener(this)
         binding.manufacture.setOnClickListener(this)
+        binding.export.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -74,6 +83,45 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 fm.replace(binding.mainFrame.id, ManufacturersFragment(), "ManufacturersFragment")
                 fm.commit()
             }
+            binding.export.id -> {
+                exportDatabase()
+            }
+        }
+    }
+
+    private fun exportDatabase() {
+        val sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+//        val sd = this.externalCacheDir
+
+        // Get the Room database storage path using SupportSQLiteOpenHelper
+        getDatabasePath(Constants.ROOM_DB_NAME).absolutePath
+//        AppDatabase.getDatabase(applicationContext)!!.openHelper.writableDatabase.path
+
+        if (sd != null) {
+            Log.e("EXPORT: ", "sd -> ${sd.absolutePath}")
+            if (sd.canWrite()) {
+                val currentDBPath = getDatabasePath(Constants.ROOM_DB_NAME).absolutePath
+                Log.e("EXPORT: ", "currentDBPath -> $currentDBPath")
+                val backupDBPath = "exportedDb.sqlite"      //you can modify the file type you need to export
+                val currentDB = File(currentDBPath)
+                Log.e("EXPORT: ", "currentDB -> ${currentDB.absolutePath}")
+                val backupDB = File(sd, backupDBPath)
+                Log.e("EXPORT: ", "backupDB -> ${backupDB.absolutePath}")
+                if (currentDB.exists()) {
+                    try {
+                        val src = FileInputStream(currentDB).channel
+                        val dst = FileOutputStream(backupDB).channel
+                        dst.transferFrom(src, 0, src.size())
+                        src.close()
+                        dst.close()
+                        Utils.showToast(this, "database stored in ${backupDB.absolutePath}")
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        } else {
+            Utils.showToast(this, "sd is null")
         }
     }
 

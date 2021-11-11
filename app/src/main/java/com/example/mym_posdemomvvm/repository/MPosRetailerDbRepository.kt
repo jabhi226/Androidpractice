@@ -14,13 +14,19 @@ import com.example.mym_posdemomvvm.datalayer.MPOSDataLayer
 import com.example.mym_posdemomvvm.models.Manufacture
 import com.example.mym_posdemomvvm.models.Medicine
 import com.example.mym_posdemomvvm.models.Medicine1
+import com.example.mym_posdemomvvm.models.Parcel
 import com.example.mym_posdemomvvm.roomDb.RetailerDb
+import com.example.mym_posdemomvvm.utils.Utils
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.Callable
 import javax.sql.DataSource
+import kotlin.coroutines.coroutineContext
 
 /**
  * Repo is a simple class which provide a clean API to access all dos.
@@ -31,12 +37,18 @@ class MPosRetailerDbRepository(private val application: Application) {
     private var manufactureDao: ManufactureDao = retailerDb.manufactureDao
 
     private var allMedicine: LiveData<List<Medicine>>? = medicineDoa.getAllMedicines()
+    private var tempParcel: List<Parcel>? = medicineDoa.getAllParcelOfRedBook()
 //    private var allMedicineOfRedBook: LiveData<List<Medicine1>>? = medicineDoa.getAllMedicinesOfRedBook()
-    var allPagedMedicine: Flow<PagingData<Medicine>>? = null
+    private var allPagedMedicine: Flow<PagingData<Medicine>>? = null
+    var allPagedMedicineOfRedBook: Flow<PagingData<Medicine1>>? = null
+//    var allPagedMedicineOfRedBookLiveData: LiveData<PagingData<Medicine1>>? = null
+//    var allMedicineContainsOfRedBook: Flow<PagingData<Medicine1>>? = null
+    private var allMedicinesCountOfRedBook: Int = 0
     private var allManufactures: LiveData<List<Manufacture>>? = manufactureDao.getAllManufactures()
 
     private var mPosDataLayer : MPOSDataLayer = MPOSDataLayer()
-    var allMedicineContains: MutableLiveData<List<Medicine>>? = MutableLiveData()
+    private var allMedicineContains: MutableLiveData<List<Medicine>> = MutableLiveData()
+//    var allMedicineContainsOfRedBook: MutableLiveData<List<Medicine1>> = MutableLiveData()
 
     init {
         allPagedMedicine = Pager(
@@ -49,11 +61,37 @@ class MPosRetailerDbRepository(private val application: Application) {
             medicineDoa.getAllPagedMedicines()
         }.flow
 
+        allPagedMedicineOfRedBook = Pager(
+            PagingConfig(
+                pageSize = 50,
+                enablePlaceholders = true,
+                maxSize = 300
+            )
+        ) {
+            medicineDoa.getAllMedicinesOfRedBook().asPagingSourceFactory().invoke()
+        }.flow
+
+//        allPagedMedicineOfRedBookLiveData = Pager(
+//            PagingConfig(10),
+//            null,
+//            medicineDoa.getAllMedicinesOfRedBook().asPagingSourceFactory().
+//        ).liveData
+
         allManufactures = manufactureDao.getAllManufactures()
 //        Log.d("allMedicineOfRedBook: ", "${allMedicineOfRedBook?.value?.size}")
+        tempParcel?.forEach {
+            Log.d("DB_IMPORT: ","${it.tracking_num} | ${it.event_id} | ${it.date_time} | ${it.location} | ${it.status}")
+        }
     }
 
     fun insert(medicine: Medicine) {
+        Thread {
+            Log.d("THREAD: ", "insert -> ${Thread.currentThread().id} -> ${Thread.currentThread().name}")
+            medicineDoa.insert(medicine)
+        }.start()
+    }
+
+    fun insert(medicine: Medicine1) {
         Thread {
             Log.d("THREAD: ", "insert -> ${Thread.currentThread().id} -> ${Thread.currentThread().name}")
             medicineDoa.insert(medicine)
@@ -114,8 +152,35 @@ class MPosRetailerDbRepository(private val application: Application) {
 
         val list: List<Medicine> = medicineDoa.getMedicinesContains("%$name%")
         Log.d("SALE_LOG_UPDATE", list.size.toString() )
-        allMedicineContains!!.value = list
+        allMedicineContains.value = list
         return allMedicineContains
+    }
+
+    fun getAllMedicineContainsOfRedBook(name: String): LiveData<PagingData<Medicine1>> {
+//        val list: List<Medicine1> = medicineDoa.getMedicinesContainsOfRedBook("%$name%")
+
+//        val list: LiveData<PagingData<Medicine1>> = Pager(
+//            PagingConfig(
+//                pageSize = 50,
+//                enablePlaceholders = true,
+//                maxSize = 300
+//            )
+//        ) {
+//            medicineDoa.getMedicinesContainsOfRedBook("%$name%").asPagingSourceFactory().invoke()
+//        }.liveData
+        val list = Pager(
+            PagingConfig(
+                pageSize = 20,
+                maxSize = 300
+            ),
+            1,
+            medicineDoa.getMedicinesContainsOfRedBook("%$name%")
+                .asPagingSourceFactory(Dispatchers.IO)
+        ).liveData
+//        list.observeForever {
+//            Log.d("FLOW_UPDATE", "list.observeForever {")
+//        }
+        return list
     }
 
     @JvmName("getAllMedicines1")
@@ -126,6 +191,28 @@ class MPosRetailerDbRepository(private val application: Application) {
 
     fun getAllMedicinesFromPaging(): Flow<PagingData<Medicine>>?{
         return allPagedMedicine
+    }
+
+    fun getAllMedicinesFromPagingOfRedBook(): Flow<PagingData<Medicine1>>?{
+        return allPagedMedicineOfRedBook
+    }
+
+//    fun getAllMedicinesFromPagingOfRedBookLiveData(): LiveData<PagingData<Medicine1>>?{
+//        allPagedMedicineOfRedBookLiveData = Pager(
+//            PagingConfig(
+//                pageSize = 50,
+//                enablePlaceholders = true,
+//                maxSize = 300
+//            ),
+//            null,
+//            medicineDoa.getAllMedicinesOfRedBook().asPagingSourceFactory(Dispatchers.IO)
+//        ).liveData
+//        return allPagedMedicineOfRedBookLiveData
+//    }
+
+    fun getAllMedicinesCountOfRedBook(): Int{
+        allMedicinesCountOfRedBook = medicineDoa.getAllMedicinesCountOfRedBook()
+        return allMedicinesCountOfRedBook
     }
 
     fun insertManufacture(m: Manufacture){

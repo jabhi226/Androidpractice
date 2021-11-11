@@ -9,12 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mym_posdemomvvm.adapters.SaleMedicineListAdapter
+import com.example.mym_posdemomvvm.adapters.SaleMedicineListAdapterOfRedBook
 import com.example.mym_posdemomvvm.databinding.FragmentSalesBinding
 import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.viewmodels.ManufactureViewModel
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class SalesFragment : Fragment(), View.OnClickListener {
 
@@ -23,7 +27,8 @@ class SalesFragment : Fragment(), View.OnClickListener {
 
     private var medicineViewModel: MedicineViewModel? = null
 
-    private var adapter: SaleMedicineListAdapter? = null
+//    private var adapter: SaleMedicineListAdapter? = null
+    private var tempAdapter: SaleMedicineListAdapterOfRedBook? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +40,9 @@ class SalesFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViewModel()
         setRecycler()
         initTextWatcher()
+        initViewModel()
     }
 
     override fun onDestroyView() {
@@ -46,25 +51,45 @@ class SalesFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setRecycler() {
-        if (adapter == null) {
-            adapter = SaleMedicineListAdapter()
-            binding?.recyclerView?.adapter = adapter
+        if (tempAdapter == null) {
+            tempAdapter = SaleMedicineListAdapterOfRedBook()
+            binding?.recyclerView?.adapter = tempAdapter
             binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext(),)
         }
     }
 
     private fun initViewModel() {
         medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
-        medicineViewModel?.allMedicinesContains?.observe(viewLifecycleOwner, {
-            if (it != null){
-                Log.d("SALE_LOG_UPDATE ", "" + it.size)
-                Utils.showToast(requireContext(), "List Size ${it.size}")
-                adapter?.submitList(it)
-            }
-            else {
-                Utils.showToast(requireContext(), "Empty List")
+//        medicineViewModel?.allMedicinesContainsOfRedBook?.observe(viewLifecycleOwner, {
+//            if (it != null){
+//                Log.d("SALE_LOG_UPDATE ", "" + it.size)
+//                Utils.showToast(requireContext(), "List Size ${it.size}")
+//                tempAdapter?.submitList(it)
+//            }
+//            else {
+//                Utils.showToast(requireContext(), "Empty List")
+//            }
+//        })
+        medicineViewModel!!.allMedicinesContainsOfRedBook.observe(viewLifecycleOwner, {
+            Utils.showToast(requireContext(), "collectLatest")
+            lifecycleScope.launch {
+                if (it != null){
+                    tempAdapter!!.submitData(it)
+                } else{
+                    Utils.showToast(requireContext(), "it is null")
+                }
             }
         })
+//        medicineViewModel?.allMedicinesContains?.observe(viewLifecycleOwner, {
+//            if (it != null){
+//                Log.d("SALE_LOG_UPDATE ", "" + it.size)
+//                Utils.showToast(requireContext(), "List Size ${it.size}")
+//                adapter?.submitList(it)
+//            }
+//            else {
+//                Utils.showToast(requireContext(), "Empty List")
+//            }
+//        })
 
 //        medicineViewModel?.repositoryMPos?.allMedicineContains?.observe(viewLifecycleOwner, {
 //            if (it != null){
@@ -84,7 +109,8 @@ class SalesFragment : Fragment(), View.OnClickListener {
                     if (s.length > 2){
                         binding?.recyclerView?.visibility = View.VISIBLE
 //                        medicineViewModel?.repositoryMPos?.getAllMedicinesContains(s.toString().lowercase())
-                        medicineViewModel!!.updateAllMedicineContains(s.toString().lowercase())
+//                        medicineViewModel!!.updateAllMedicineContains(s.toString().lowercase())
+                        medicineViewModel!!.searchMedicineByNameOfRedBook(s.toString().lowercase())
                     } else {
                         binding?.recyclerView?.visibility = View.GONE
                     }

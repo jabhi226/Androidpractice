@@ -1,0 +1,32 @@
+[
+  {
+    "product_ucode": 339893,
+    "product_mdm_uid": "4241d9d0-cd9b-4ea1-86b2-6376821ea6fe",
+    "product_name": "CEPHACEPT DT 125MG TAB",
+    "packform_name": "STRIP",
+    "packe_quantity_value": "",
+    "measurement_unit": "",
+    "manufacturer": "CONCEPT PHARMACEUTICALS LTD",
+    "manufacturer_id": 372378,
+    "composition": "UNSURE(-100.0 UNSURE)",
+    "composition_id": 56954,
+    "product_type": "",
+    "schedule": "SCHEDULE H",
+    "product_hsn_code": 3004,
+    "cgst": 6,
+    "sgst": 6,
+    "igst": 12,
+    "gst": 12,
+    "product_is_banned": "FALSE",
+    "product_is_undeliverable": "FALSE",
+    "product_is_discontinued": "FALSE",
+    "is_live": 1,
+    "product_substitute_group_id": "",
+    "product_is_generic": "",
+    "product_variant_group_id": "",
+    "product_variant_group_variant_types": "",
+    "product_is_refrigerated": "FALSE",
+    "product_ml_disabled": "",
+    "procurement_channel": "MEDICINE"
+  }
+]
