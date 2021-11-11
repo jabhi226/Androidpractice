@@ -43,7 +43,7 @@ class SaleMedicineListAdapter: ListAdapter<Medicine, SaleMedicineListAdapter.Vie
 }
 
 
-class SaleMedicineListAdapterOfRedBook: PagingDataAdapter<Medicine1, SaleMedicineListAdapterOfRedBook.ViewHolder>(
+class SaleMedicineListAdapterOfRedBook: ListAdapter<Medicine1, SaleMedicineListAdapterOfRedBook.ViewHolder>(
     object: DiffUtil.ItemCallback<Medicine1>(){
         override fun areItemsTheSame(oldItem: Medicine1, newItem: Medicine1): Boolean {
             return oldItem == newItem

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "gen")
+//@Entity(tableName = "gen")
 data class GenericRB(
 
     @ColumnInfo(name = "generic_id") @PrimaryKey var genericId : String,

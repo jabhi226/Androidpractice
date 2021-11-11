@@ -127,40 +127,42 @@ class AddMedicineFragment : Fragment(), View.OnClickListener {
 //                    )
 //                )
                 for (i in 1..1){
-                    medicineViewModel?.repositoryMPos?.insert(
-                        Medicine1(
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            binding?.nameEt?.text.toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            binding?.isH1Et?.text.toString().toInt(),
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            "100",
-                            java.util.UUID.randomUUID().toString(),
-                            100,
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            binding?.divisorTv?.text.toString().toInt(),
-                            100,
-                            100,
-                            100,
-                            100,
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            100,
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-                            java.util.UUID.randomUUID().toString(),
-//                            java.util.UUID.randomUUID().toString(),
-//                            100
+                    lifecycleScope.launch {
+                        medicineViewModel?.repositoryMPos?.insert(
+                            Medicine1(
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                binding?.nameEt?.text.toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                binding?.isH1Et?.text.toString().toInt(),
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                "100",
+                                java.util.UUID.randomUUID().toString(),
+                                100,
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                binding?.divisorTv?.text.toString().toInt(),
+                                100,
+                                100,
+                                100,
+                                100,
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                100,
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+                                java.util.UUID.randomUUID().toString(),
+    //                            java.util.UUID.randomUUID().toString(),
+    //                            100
+                            )
                         )
-                    )
+                    }
                 }
             }
         }

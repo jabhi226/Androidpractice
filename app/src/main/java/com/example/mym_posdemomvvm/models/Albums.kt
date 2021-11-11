@@ -6,7 +6,7 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import org.jetbrains.annotations.NotNull
 
-@Entity(tableName = "Parcel")
+//@Entity(tableName = "Parcel")
 data class Parcel(
     @PrimaryKey(autoGenerate = true)
     var event_id: Int,

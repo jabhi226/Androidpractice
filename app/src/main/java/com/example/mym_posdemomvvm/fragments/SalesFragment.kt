@@ -3,7 +3,6 @@ package com.example.mym_posdemomvvm.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +10,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mym_posdemomvvm.adapters.SaleMedicineListAdapter
 import com.example.mym_posdemomvvm.adapters.SaleMedicineListAdapterOfRedBook
 import com.example.mym_posdemomvvm.databinding.FragmentSalesBinding
 import com.example.mym_posdemomvvm.utils.Utils
-import com.example.mym_posdemomvvm.viewmodels.ManufactureViewModel
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SalesFragment : Fragment(), View.OnClickListener {
@@ -74,7 +70,7 @@ class SalesFragment : Fragment(), View.OnClickListener {
             Utils.showToast(requireContext(), "collectLatest")
             lifecycleScope.launch {
                 if (it != null){
-                    tempAdapter!!.submitData(it)
+                    tempAdapter!!.submitList(it)
                 } else{
                     Utils.showToast(requireContext(), "it is null")
                 }
@@ -110,7 +106,9 @@ class SalesFragment : Fragment(), View.OnClickListener {
                         binding?.recyclerView?.visibility = View.VISIBLE
 //                        medicineViewModel?.repositoryMPos?.getAllMedicinesContains(s.toString().lowercase())
 //                        medicineViewModel!!.updateAllMedicineContains(s.toString().lowercase())
-                        medicineViewModel!!.searchMedicineByNameOfRedBook(s.toString().lowercase())
+                        lifecycleScope.launch {
+                            medicineViewModel!!.searchMedicineByNameOfRedBook(s.toString().lowercase())
+                        }
                     } else {
                         binding?.recyclerView?.visibility = View.GONE
                     }
