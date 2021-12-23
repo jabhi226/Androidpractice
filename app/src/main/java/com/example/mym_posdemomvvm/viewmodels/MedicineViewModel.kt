@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.liveData
 import com.example.mym_posdemomvvm.models.Manufacture
 import com.example.mym_posdemomvvm.models.Medicine
 import com.example.mym_posdemomvvm.models.Medicine1
@@ -21,7 +22,7 @@ class MedicineViewModel(application: Application) : AndroidViewModel(application
     var allMedicinesFromPagingOfRedBookLiveDat: MutableLiveData<PagingData<Medicine1>> = MutableLiveData()
 //    var allMedicinesContains: MutableLiveData<List<Medicine>> = MutableLiveData()
     var allMedicinesContainsOfRedBook: MutableLiveData<List<Medicine1>> = MutableLiveData()
-    var allMedicinesContainsOfRedBookPaging: MutableLiveData<PagingData<Medicine1>> = MutableLiveData()
+    var allMedicinesContainsOfRedBookPaging: Flow<PagingData<Medicine1>>? = null
     var allManufactures: LiveData<List<Manufacture>>? = null
 
 //    fun updateAllMedicineContains(name: String){
@@ -37,7 +38,7 @@ class MedicineViewModel(application: Application) : AndroidViewModel(application
 //        val a = repositoryMPos.getAllMedicineContainsOfRedBook(name).cachedIn(viewModelScope)
 //        Log.d("FLOW_UPDATE", "${a.toString()} | ${allMedicinesContainsOfRedBook.toString()}")
         viewModelScope.launch {
-            allMedicinesContainsOfRedBookPaging.value = repositoryMPos.getAllMedicineContainsOfRedBookPaging(name).cachedIn(viewModelScope).value
+            allMedicinesContainsOfRedBookPaging = repositoryMPos.updateSearchedMedicineContainsOfRedBookPaging(name)
         }
     }
 
@@ -60,5 +61,9 @@ class MedicineViewModel(application: Application) : AndroidViewModel(application
 //        allMedicinesFromPagingOfRedBookLiveDat.value = repositoryMPos.getAllMedicinesFromPagingOfRedBookLiveData()?.value
 //        allMedicinesContains.value = repositoryMPos.getAllMedicines()?.value
         allManufactures = repositoryMPos.getAllManufactures()
+
+        viewModelScope.launch {
+            allMedicinesContainsOfRedBookPaging = repositoryMPos.updateSearchedMedicineContainsOfRedBookPaging("cro%")
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.mym_posdemomvvm.roomDb
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -25,7 +26,9 @@ import org.json.JSONObject
 //    Demo::class,
 //    GenericRB::class,
 //        Parcel::class
-    ], version = Constants.ROOM_DB_VERSION
+    ],
+    version = Constants.ROOM_DB_VERSION,
+    exportSchema = false
 )
 abstract class RetailerDb : RoomDatabase() {
 
@@ -59,116 +62,70 @@ abstract class RetailerDb : RoomDatabase() {
             return instance!!
         }
 
-        private val roomCallback: Callback = object : Callback() {
+        private val roomCallback: Callback = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
-                super.onCreate(db)
-                try {
-                    Thread {
-                        val manufactureDao = instance?.manufactureDao
-                        manufactureDao?.insertManufacture(
-                            Manufacture(
-                                "Cipla private LTD",
-                                "admin.cipla.com",
-                                "cipla.com",
-                                isGlobal = false,
-                                isActive = true
-                            )
+                Thread {
+                    Log.d("ONDBCREATE", ": PRELOAD DATA")
+                    val manufactureDao = instance?.manufactureDao
+                    manufactureDao?.insertManufacture(
+                        Manufacture(
+                            "Cipla private LTD",
+                            "admin.cipla.com",
+                            "cipla.com",
+                            isGlobal = false,
+                            isActive = true
                         )
+                    )
 //
-                        val medicineDao = instance?.medicineDao
-//                        for (j in 1..3) {
-//                        medicineDao?.insert(
-//                            Medicine(
-//                                "Crocin 650 Advance",
-//                                false,
-//                                15,
-//                                0,
-//                                1
-//                            )
-//                        )
-//                    }
-                            val a = Utils.getJsonFromAssets(instance!!.context!!, "medicine.json")
-                            val array = JSONArray(a)
-                            array.length()
-                            for (i in 0 until array.length()) {
+                    val medicineDao = instance?.medicineDao
+                    val a = Utils.getJsonFromAssets(instance!!.context!!, "medicine.json")
+                    val array = JSONArray(a)
+                    Log.d("MED_SIZE", "${array.length()}")
+                    for (i in 0 until array.length()) {
+                        Thread{
+                            GlobalScope.launch {
                                 val currentMed = JSONObject(array[i].toString())
-                                GlobalScope.launch {
-                                    medicineDao?.insert(
-                                        Medicine1(
-                                            currentMed.getString("product_ucode"),
-                                            "",
-                                            currentMed.getString("product_name"),
-                                            currentMed.getString("packform_name"),
-                                            100,
-                                            "",
-                                            currentMed.getString("manufacturer"),
-                                            currentMed.getString("manufacturer_id"),
-                                            "",
-                                            1,
-                                            "",
-                                            "",
-                                            1,
-                                            6,
-                                            6,
-                                            12,
-                                            1,
-                                            "",
-                                            "",
-                                            "",
-                                            1,
-                                            "",
-                                            "",
-                                            "",
-                                            "",
-                                            "",
-                                            "",
-                                            "",
-                                        )
+                                Log.d("MED_SIZE", "${i}")
+                                medicineDao?.insert(
+                                    Medicine1(
+                                        currentMed.getString("product_ucode"),
+                                        "",
+                                        currentMed.getString("product_name"),
+                                        currentMed.getString("packform_name"),
+                                        100,
+                                        "",
+                                        currentMed.getString("manufacturer"),
+                                        currentMed.getString("manufacturer_id"),
+                                        "",
+                                        1,
+                                        "",
+                                        "",
+                                        1,
+                                        6,
+                                        6,
+                                        12,
+                                        1,
+                                        "",
+                                        "",
+                                        "",
+                                        1,
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "",
                                     )
-                                }
+                                )
                             }
-//                        }
-//                        Log.d("DATA_LOCATION: ", a.toString())
+                        }.start()
+                    }
+                }.start()
+            }
 
-//                        medicineDao?.insert(
-//                            Medicine1(
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                100,
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                100,
-//                                java.util.UUID.randomUUID().toString(),
-//                                100,
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                100,
-//                                100,
-//                                100,
-//                                100,
-//                                100,
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                100,
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-//                                java.util.UUID.randomUUID().toString(),
-////                                java.util.UUID.randomUUID().toString(),
-////                                100
-//                            )
-//                        )
-//                    }
-                    }.start()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                Log.d("ONDBOPEN", ": DATABASE LOADED")
             }
         }
 

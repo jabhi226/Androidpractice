@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mym_posdemomvvm.adapters.SaleMedicineListAdapter
 import com.example.mym_posdemomvvm.adapters.SaleMedicineListAdapterOfRedBook
 import com.example.mym_posdemomvvm.databinding.FragmentSalesBinding
 import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.viewmodels.MedicineViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SalesFragment : Fragment(), View.OnClickListener {
@@ -24,7 +26,8 @@ class SalesFragment : Fragment(), View.OnClickListener {
     private var medicineViewModel: MedicineViewModel? = null
 
 //    private var adapter: SaleMedicineListAdapter? = null
-    private var tempAdapter: SaleMedicineListAdapterOfRedBook? = null
+    private var listAdapter: SaleMedicineListAdapter? = null
+    private var pageListAdapter: SaleMedicineListAdapterOfRedBook? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +50,11 @@ class SalesFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setRecycler() {
-        if (tempAdapter == null) {
-            tempAdapter = SaleMedicineListAdapterOfRedBook()
-            binding?.recyclerView?.adapter = tempAdapter
+        if (listAdapter == null) {
+            listAdapter = SaleMedicineListAdapter()
+            pageListAdapter = SaleMedicineListAdapterOfRedBook()
+            binding?.recyclerView?.adapter = listAdapter
+//            binding?.recyclerView?.adapter = pageListAdapter
             binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext(),)
         }
     }
@@ -67,15 +72,28 @@ class SalesFragment : Fragment(), View.OnClickListener {
 //            }
 //        })
         medicineViewModel!!.allMedicinesContainsOfRedBook.observe(viewLifecycleOwner, {
-            Utils.showToast(requireContext(), "collectLatest")
             lifecycleScope.launch {
                 if (it != null){
-                    tempAdapter!!.submitList(it)
+                    listAdapter!!.submitList(it)
                 } else{
-                    Utils.showToast(requireContext(), "it is null")
+                    Utils.showToast(requireContext(), "List is null")
                 }
             }
         })
+//        medicineViewModel!!.allMedicinesContainsOfRedBookPaging.observe(viewLifecycleOwner, {
+//            lifecycleScope.launch {
+//                if (it != null){
+//                    pageListAdapter!!.submitData(it)
+//                } else{
+//                    Utils.showToast(requireContext(), "List is null Paging")
+//                }
+//            }
+//        })
+        lifecycleScope.launch {
+            medicineViewModel!!.allMedicinesContainsOfRedBookPaging!!.collectLatest {
+                pageListAdapter!!.submitData(it)
+            }
+        }
 //        medicineViewModel?.allMedicinesContains?.observe(viewLifecycleOwner, {
 //            if (it != null){
 //                Log.d("SALE_LOG_UPDATE ", "" + it.size)
@@ -107,6 +125,7 @@ class SalesFragment : Fragment(), View.OnClickListener {
 //                        medicineViewModel?.repositoryMPos?.getAllMedicinesContains(s.toString().lowercase())
 //                        medicineViewModel!!.updateAllMedicineContains(s.toString().lowercase())
                         lifecycleScope.launch {
+//                            medicineViewModel!!.searchMedicineByNameOfRedBookPaging(s.toString().lowercase())
                             medicineViewModel!!.searchMedicineByNameOfRedBook(s.toString().lowercase())
                         }
                     } else {

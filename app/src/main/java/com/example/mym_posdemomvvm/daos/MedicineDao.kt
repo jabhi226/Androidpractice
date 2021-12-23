@@ -63,7 +63,7 @@ interface MedicineDao {
     suspend fun getAllMedicinesCountOfRedBook(): Int
 
     @Query("SELECT * FROM `public.pe_catalog1` WHERE LOWER(product_name) LIKE :name")
-    fun getMedicinesContainsOfRedBookPaging(name: String): DataSource.Factory<Int, Medicine1>
+    fun getMedicinesContainsOfRedBookPaging(name: String): PagingSource<Int, Medicine1>
 
     @Query("SELECT * FROM `public.pe_catalog1` WHERE LOWER(product_name) LIKE :name")
     suspend fun getMedicinesContainsOfRedBook(name: String): List<Medicine1>
