@@ -56,6 +56,12 @@ interface MedicineDao {
     @Insert
     suspend fun insert(m: Medicine1)
 
+    @Insert
+    suspend fun insert(m: Medicine)
+
+    @Query("SELECT name FROM med WHERE UPPER(name) like :string ")
+    fun getAllMedicineList(string: String): LiveData<List<String>>
+
     @Query("SELECT * FROM `public.pe_catalog1`")
     fun getAllMedicinesOfRedBook(): DataSource.Factory<Int, Medicine1>
 

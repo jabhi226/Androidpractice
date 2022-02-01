@@ -10,6 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.mym_posdemomvvm.daos.ManufactureDao
 import com.example.mym_posdemomvvm.daos.MedicineDao
 import com.example.mym_posdemomvvm.models.Manufacture
+import com.example.mym_posdemomvvm.models.Medicine
 import com.example.mym_posdemomvvm.models.Medicine1
 import com.example.mym_posdemomvvm.utils.Constants
 import com.example.mym_posdemomvvm.utils.Utils
@@ -22,7 +23,7 @@ import org.json.JSONObject
     entities = [
         Medicine1::class,
         Manufacture::class,
-//        Medicine::class,
+        Medicine::class
 //    Demo::class,
 //    GenericRB::class,
 //        Parcel::class
