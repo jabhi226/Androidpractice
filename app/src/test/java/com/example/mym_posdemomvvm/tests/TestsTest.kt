@@ -45,5 +45,10 @@ class TestsTest {
         assertThat(t).isEqualTo("")
     }
 
+    @Test
+    fun isPalindrome() {
+        val t = Tests.isPalindrome("Ann e, I vote mo! re c-.ars race Rome to Vienna.")
+        assertThat(t).isEqualTo(true)
+    }
 
 }

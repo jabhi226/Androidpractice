@@ -4,22 +4,22 @@ import android.text.InputFilter
 import android.text.Spanned
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
+import androidx.room.testing.MigrationTestHelper
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.mym_posdemomvvm.daos.MedicineDao
-import com.example.mym_posdemomvvm.getOrAwaitValue
-import com.example.mym_posdemomvvm.models.Medicine
 import com.example.mym_posdemomvvm.roomDb.RetailerDb
-import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.mym_posdemomvvm.utils.Constants
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+
 
 @ExperimentalMultiplatform
 @RunWith(AndroidJUnit4::class)
@@ -29,17 +29,31 @@ class AndroidTests {
     @get:Rule
     val instantTaskExecutor = InstantTaskExecutorRule()
 
-    private lateinit var db: RetailerDb
+//    private lateinit var db: RetailerDb
+    private lateinit var db: SupportSQLiteDatabase
     private lateinit var medDao: MedicineDao
+
+    @Rule
+    lateinit var testHelper: MigrationTestHelper
 
     @Before
     fun setUp() {
-        db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            RetailerDb::class.java
-        ).allowMainThreadQueries()
-            .build()
-        medDao = db.medicineDao
+
+        testHelper = MigrationTestHelper(
+            InstrumentationRegistry.getInstrumentation(),
+            RetailerDb.javaClass.canonicalName,
+            FrameworkSQLiteOpenHelperFactory()
+        )
+
+        // Create the database with version 2
+        db = testHelper.createDatabase(Constants.ROOM_DB_NAME, 1)
+
+//        db = Room.inMemoryDatabaseBuilder(
+//            ApplicationProvider.getApplicationContext(),
+//            RetailerDb::class.java
+//        ).allowMainThreadQueries()
+//            .build()
+//        medDao = db.medicineDao
     }
 
     @After
@@ -87,6 +101,15 @@ class AndroidTests {
                 }.toString()
             }
         }
+    }
+
+    @Test
+    fun migration() {
+        db = testHelper.runMigrationsAndValidate(
+            Constants.ROOM_DB_NAME,
+            2,
+            true,
+            RetailerDb.MIGRATION_1_2)
     }
 
 }

@@ -59,6 +59,12 @@
             android:layout_height="wrap_content"
             android:text="Export"/>
 
+        <Button
+            android:id="@+id/status_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status Screen"/>
+
     </LinearLayout>
 
     <RelativeLayout
