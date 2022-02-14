@@ -2,6 +2,7 @@ package com.example.mym_posdemomvvm.tests
 
 import org.junit.Test
 import com.google.common.truth.Truth.assertThat
+import java.math.BigDecimal
 
 class TestsTest {
 
@@ -41,8 +42,27 @@ class TestsTest {
 
     @Test
     fun getNumberInCurrency() {
-        val t = Tests.getNumberInCurrency(100000000.2)
-        assertThat(t).isEqualTo("")
+        val b = BigDecimal.valueOf(1234567890.1234)
+        val t = Tests.getNumberInCurrency(1234567890.12)
+        assertThat(t).isEqualTo("1,234,567,890.12")
+    }
+
+    @Test
+    fun format1() {
+        val t = Tests.format1(1234567890.1234)
+        assertThat(t).isEqualTo("1,234,567,890.12")
+    }
+
+    @Test
+    fun getPercentageDone() {
+        val t = Tests.getPercentageDone(2000000.0, 32795729.0)
+        assertThat(t).isEqualTo(10.0)
+    }
+
+    @Test
+    fun isIsomorphic() {
+        val t = Tests.isIsomorphic("abcabcabcaaacbabcaaacb ", "xyzxyzxyzxxxzyxyzxxxzy ")
+        assertThat(t).isEqualTo(true)
     }
 
 

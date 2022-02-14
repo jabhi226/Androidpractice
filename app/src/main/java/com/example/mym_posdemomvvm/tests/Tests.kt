@@ -4,6 +4,10 @@ import android.text.InputFilter
 import android.text.Spannable
 import android.text.Spanned
 import java.math.BigDecimal
+import java.math.BigInteger
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 import kotlin.math.roundToLong
 
 object Tests {
@@ -101,13 +105,68 @@ object Tests {
         return number.toBigDecimal().toPlainString()
     }
 
+//    fun getNumberInCurrency(input: Double): String {
+//        return java.text.NumberFormat.getNumberInstance().format(input)
+////         "%,d".format(input)
+//    }
+
     fun getNumberInCurrency(input: Double): String {
         return java.text.NumberFormat.getNumberInstance().format(input)
 //         "%,d".format(input)
     }
 
+    fun format1(num: Double): String{
+        val a: DecimalFormat = (NumberFormat.getInstance(Locale.ENGLISH) as DecimalFormat)
+        a.applyPattern("###,###.##")
+        return a.format(num)
+    }
 
+    fun getPercentageDone(current: Double, size: Double): Double {
+        return (current / size) * 100.0
+    }
 
+    fun isIsomorphic(s: String, t: String): Boolean {
+        val firstString = arrayListOf<Char>()
+        val secondString = arrayListOf<Char>()
+        s.forEachIndexed { index, c ->
+            if (firstString.contains(c)){
+                val i = firstString.indexOf(c)
+                if (secondString[i] != t[index]){
+                    return false
+                }
+            } else if (secondString.contains(t[index])) {
+                val i = secondString.indexOf(t[index])
+                if (firstString[i] != s[index]){
+                    return false
+                }
+            }
+            firstString.add(c)
+            secondString.add(t[index])
+        }
+
+        return true
+    }
+
+//    abhi
+//    aaabbhii
+    fun isLongPressedName(name: String, typed: String): Boolean {
+        var i = 0
+        name.forEachIndexed { index, c ->
+            for (char in i .. typed.length) {
+                if(c != typed[char]){
+                    i = char
+                    break
+                }
+            }
+            if (c == typed[i]){
+
+            } else {
+                if (name.length < i)
+                    i++
+            }
+        }
+        return true
+    }
 
 
 
