@@ -1,5 +1,6 @@
 package com.example.mym_posdemomvvm.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.showMedicinesStock.setOnClickListener(this)
         binding.manufacture.setOnClickListener(this)
         binding.export.setOnClickListener(this)
+        binding.statusScreen.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -85,6 +87,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             binding.export.id -> {
                 exportDatabase()
+            }
+            binding.statusScreen.id -> {
+                val i = Intent(this, StatusActivity::class.java)
+                this.startActivity(i)
             }
         }
     }

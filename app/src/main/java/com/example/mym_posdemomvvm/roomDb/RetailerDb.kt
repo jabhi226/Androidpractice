@@ -56,7 +56,7 @@ abstract class RetailerDb : RoomDatabase() {
 //                    .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
-//                    .addMigrations(EMPTY_MIGRATION)
+                    .addMigrations(MIGRATION_1_2)
                     .build()
             }
             instance!!.context = c
@@ -131,19 +131,15 @@ abstract class RetailerDb : RoomDatabase() {
         }
 
 
-        private val MIGRATION_2_3 = object : Migration(3, 4) {
+        val MIGRATION_1_2 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE gen_temp (genericId TEXT, createdTime TEXT, created_By TEXT, deleted INTEGER, remarks TEXT, updatedTime TEXT, updatedBy TEXT, bannedOn TEXT, genericDescription TEXT, genericDosage TEXT, genericDosageNoSpace TEXT, genericName TEXT, genericType TEXT, isBanned INTEGER, isH1 INTEGER, isTB INTEGER,  PRIMARY KEY(genericId))")
-                database.execSQL("INSERT INTO gen_temp SELECT * FROM gen")
-                database.execSQL("DROP TABLE gen")
-                database.execSQL("ALTER TABLE gen_temp RENAME TO gen")
             }
         }
 
-        private val EMPTY_MIGRATION = object : Migration(2, 3) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-            }
-        }
+//        private val EMPTY_MIGRATION = object : Migration(2, 3) {
+//            override fun migrate(database: SupportSQLiteDatabase) {
+//            }
+//        }
     }
 
     abstract val medicineDao: MedicineDao

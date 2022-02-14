@@ -167,6 +167,21 @@ object Tests {
         }
         return true
     }
+    fun isPalindrome(s: String): Boolean {
+//        val a = s.lowercase().filter {
+//            it.isLetter()
+//        }
+        val a = s.toLowerCase().filter {
+            it.isLetterOrDigit()
+        }
+        if (a.length > 1)
+        for (i in 0..(a.length/2)) {
+            if (a[i] != a[a.length-i-1]){
+                return false
+            }
+        }
+        return true
+    }
 
 
 
