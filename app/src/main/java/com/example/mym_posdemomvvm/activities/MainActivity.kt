@@ -1,27 +1,35 @@
 package com.example.mym_posdemomvvm.activities
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.example.mym_posdemomvvm.NotificationBroadcast
 import com.example.mym_posdemomvvm.databinding.ActivityMainBinding
 import com.example.mym_posdemomvvm.fragments.AddMedicineFragment
 import com.example.mym_posdemomvvm.fragments.ManufacturersFragment
 import com.example.mym_posdemomvvm.fragments.SalesFragment
 import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
 import com.example.mym_posdemomvvm.utils.Constants
+import com.example.mym_posdemomvvm.utils.SharedPrefs
 import com.example.mym_posdemomvvm.utils.Utils
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
-//    private lateinit var medicineViewModel: MedicineViewModel
+
+    //    private lateinit var medicineViewModel: MedicineViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -52,6 +60,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.manufacture.setOnClickListener(this)
         binding.export.setOnClickListener(this)
         binding.statusScreen.setOnClickListener(this)
+        binding.setAlarm.setOnClickListener(this)
+        binding.cancelAlarm.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -71,12 +81,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             binding.showAllMedicines.id -> {
                 val fm = supportFragmentManager.beginTransaction()
-                fm.replace(binding.mainFrame.id, ShowAllMedicineFragment(ShowAllMedicineFragment.SHOW_ALL_MEDICINE), "ShowAllMedicineFragment")
+                fm.replace(
+                    binding.mainFrame.id,
+                    ShowAllMedicineFragment(ShowAllMedicineFragment.SHOW_ALL_MEDICINE),
+                    "ShowAllMedicineFragment"
+                )
                 fm.commit()
             }
             binding.showMedicinesStock.id -> {
                 val fm = supportFragmentManager.beginTransaction()
-                fm.replace(binding.mainFrame.id, ShowAllMedicineFragment(ShowAllMedicineFragment.SHOW_ALL_MEDICINE_STOCK), "ShowAllMedicineFragment")
+                fm.replace(
+                    binding.mainFrame.id,
+                    ShowAllMedicineFragment(ShowAllMedicineFragment.SHOW_ALL_MEDICINE_STOCK),
+                    "ShowAllMedicineFragment"
+                )
                 fm.commit()
             }
             binding.manufacture.id -> {
@@ -92,7 +110,39 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val i = Intent(this, StatusActivity::class.java)
                 this.startActivity(i)
             }
+            binding.setAlarm.id -> {
+                notifyOnAlarm()
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    println("Alarm ----> ${binding.timePicker.hour} | ${binding.timePicker.minute}")
+//                }
+            }
+            binding.cancelAlarm.id -> {
+                (getSystemService(ALARM_SERVICE) as AlarmManager).cancel(getPenningIntent())
+            }
         }
+    }
+
+    private fun notifyOnAlarm() {
+        SharedPrefs.setString(this, Constants.AMOUNT_IN_NOTIFICATION, "10000.0")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val c: Calendar = Calendar.getInstance()
+            c.add(Calendar.SECOND, 10)
+            (getSystemService(ALARM_SERVICE) as AlarmManager).setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                c.timeInMillis,
+                1000 * 60,
+                getPenningIntent()
+            )
+        }
+    }
+
+    private fun getPenningIntent(): PendingIntent? {
+        return PendingIntent.getBroadcast(
+            this,
+            1000,
+            Intent(this, NotificationBroadcast::class.java),
+            PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     private fun exportDatabase() {
@@ -108,7 +158,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             if (sd.canWrite()) {
                 val currentDBPath = getDatabasePath(Constants.ROOM_DB_NAME).absolutePath
                 Log.e("EXPORT: ", "currentDBPath -> $currentDBPath")
-                val backupDBPath = "exportedDb.sqlite"      //you can modify the file type you need to export
+                val backupDBPath =
+                    "exportedDb.sqlite"      //you can modify the file type you need to export
                 val currentDB = File(currentDBPath)
                 Log.e("EXPORT: ", "currentDB -> ${currentDB.absolutePath}")
                 val backupDB = File(sd, backupDBPath)
@@ -133,7 +184,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         val frag = supportFragmentManager.findFragmentById(binding.mainFrame.id)
-        if (frag != null){
+        if (frag != null) {
             frag.let {
                 when (it.javaClass.simpleName) {
                     "ShowAllMedicineFragment" -> {
@@ -188,16 +239,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         return occ
     }
+
     fun minCostToMoveChips(position: IntArray): Int {
         var max = 0
         position.distinct().forEach { num ->
             var current = 0
             position.sortedArray().forEach {
-                if (num == it){
+                if (num == it) {
                     current++
                 }
             }
-            if (current > max){
+            if (current > max) {
                 max = current
             }
         }

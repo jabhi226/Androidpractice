@@ -65,6 +65,24 @@
             android:layout_height="wrap_content"
             android:text="Status Screen"/>
 
+<!--        <TimePicker-->
+<!--            android:id="@+id/time_picker"-->
+<!--            android:timePickerMode="spinner"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+        <Button
+            android:text="Set Alarm"
+            android:id="@+id/set_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:text="Cancel Alarm"
+            android:id="@+id/cancel_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
     <RelativeLayout

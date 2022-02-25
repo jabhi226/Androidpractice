@@ -1,14 +1,8 @@
 package com.example.mym_posdemomvvm.tests
 
-import android.text.InputFilter
-import android.text.Spannable
-import android.text.Spanned
-import java.math.BigDecimal
-import java.math.BigInteger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
-import kotlin.math.roundToLong
 
 object Tests {
 
@@ -41,18 +35,18 @@ object Tests {
         var num = -1
         nums.distinct()
             .forEach { n ->
-                if (nums.count { n == it } > (nums.size/2)){
+                if (nums.count { n == it } > (nums.size / 2)) {
                     num = n
                 }
             }
         return num
     }
 
-    fun extractNumberFromString(string: String): Int{
+    fun extractNumberFromString(string: String): Int {
         var number = 0
-        if (string.length > 3){
+        if (string.length > 3) {
             number = string
-                .subSequence(string.length-4, string.length)
+                .subSequence(string.length - 4, string.length)
                 .filter { it.isDigit() }
                 .toString().toInt()
 
@@ -72,7 +66,7 @@ object Tests {
         return number
     }
 
-    fun getFormatedText(string: String): String{
+    fun getFormatedText(string: String): String {
 //        val ab = string
 //            .filter { it.isLetterOrDigit() || it.isWhitespace() }
 //            .replace(" ", "%")
@@ -95,7 +89,7 @@ object Tests {
         return aa.toString()
     }
 
-    fun getLongNumber(): String{
+    fun getLongNumber(): String {
         var a: Long = 999999
         a *= 999999
         return a.toString()
@@ -115,7 +109,7 @@ object Tests {
 //         "%,d".format(input)
     }
 
-    fun format1(num: Double): String{
+    fun format1(num: Double): String {
         val a: DecimalFormat = (NumberFormat.getInstance(Locale.ENGLISH) as DecimalFormat)
         a.applyPattern("###,###.##")
         return a.format(num)
@@ -129,14 +123,14 @@ object Tests {
         val firstString = arrayListOf<Char>()
         val secondString = arrayListOf<Char>()
         s.forEachIndexed { index, c ->
-            if (firstString.contains(c)){
+            if (firstString.contains(c)) {
                 val i = firstString.indexOf(c)
-                if (secondString[i] != t[index]){
+                if (secondString[i] != t[index]) {
                     return false
                 }
             } else if (secondString.contains(t[index])) {
                 val i = secondString.indexOf(t[index])
-                if (firstString[i] != s[index]){
+                if (firstString[i] != s[index]) {
                     return false
                 }
             }
@@ -147,26 +141,44 @@ object Tests {
         return true
     }
 
-//    abhi
+    //    abhi
 //    aaabbhii
     fun isLongPressedName(name: String, typed: String): Boolean {
-        var i = 0
+        var currentIndex = 1
+        var previousChar = typed[currentIndex-1]
+
         name.forEachIndexed { index, c ->
-            for (char in i .. typed.length) {
-                if(c != typed[char]){
-                    i = char
-                    break
+            var counter = true
+            var isValid = false
+            while (counter){
+                if (typed.length > currentIndex){
+                    if (c == typed[currentIndex] || (c == previousChar)) {
+                        println(c)
+                        previousChar = typed[currentIndex]
+                        currentIndex++
+                        isValid = true
+                    } else {
+                        counter = false
+                    }
+                } else if (typed.length == currentIndex) {
+                    if (c == previousChar){
+                        println(c)
+                        isValid = true
+                        counter = false
+                    } else {
+                        counter = false
+                    }
+                } else {
+                    counter = false
                 }
             }
-            if (c == typed[i]){
-
-            } else {
-                if (name.length < i)
-                    i++
+            if (!isValid){
+                return false
             }
         }
         return true
     }
+
     fun isPalindrome(s: String): Boolean {
 //        val a = s.lowercase().filter {
 //            it.isLetter()
@@ -175,23 +187,73 @@ object Tests {
             it.isLetterOrDigit()
         }
         if (a.length > 1)
-        for (i in 0..(a.length/2)) {
-            if (a[i] != a[a.length-i-1]){
-                return false
+            for (i in 0..(a.length / 2)) {
+                if (a[i] != a[a.length - i - 1]) {
+                    return false
+                }
+            }
+        return true
+    }
+
+    fun isValidWebsite(s: String): Boolean{
+        print("----------> ")
+        val split = s.split(":")
+        if (split.size == 3){
+            println("BASE: ${split[0]}:${split[1]} | PORT: ${split[2]}")
+        }
+        else if (split.size == 2){
+            if (split[0].lowercase() == "http"){
+                println("BASE: ${split[0]}:${split[1]} | PORT: 80")
+            } else if (split[0].lowercase() == "https"){
+                println("BASE: ${split[0]}:${split[1]} | PORT: 443")
             }
         }
         return true
     }
 
+    fun isLong(s: String): Long{
+        return s.toLong()
+    }
+
+    fun largestOdd(s: String): String{
+        for (i in s.length-1 downTo 0){
+            if (s[i].toString().toInt() % 2 == 1){
+                return s.subSequence(0, i+1).toString()
+            }
+        }
+        return ""
+    }
+
+    fun someCandy(candyType: IntArray): Int{
+
+        print("[")
+        for (i in -100 .. 100){
+            print("$i, ")
+        }
+        print("]")
+        val a = candyType.size / 2
+        val b = candyType.distinct().size
+        return if (b > a){
+            a
+        } else {
+            b
+        }
+    }
 
 
-
-
-
-
-
-
-
+    fun minOperations(s: String): Int {
+        val firstChar = s[0].digitToInt()
+        var count = 0
+        for (i in 1 until s.length) {
+            println("------------->>>>>>> $i")
+            if (i % 2 == 0 && s[i].digitToInt() != firstChar){
+                count++
+            } else if (i % 2 == 1 && s[i].digitToInt() == firstChar){
+                count++
+            }
+        }
+        return count
+    }
 
 
 
