@@ -3,6 +3,7 @@ package com.example.mym_posdemomvvm.tests
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.pow
 
 object Tests {
 
@@ -145,13 +146,13 @@ object Tests {
 //    aaabbhii
     fun isLongPressedName(name: String, typed: String): Boolean {
         var currentIndex = 1
-        var previousChar = typed[currentIndex-1]
+        var previousChar = typed[currentIndex - 1]
 
         name.forEachIndexed { index, c ->
             var counter = true
             var isValid = false
-            while (counter){
-                if (typed.length > currentIndex){
+            while (counter) {
+                if (typed.length > currentIndex) {
                     if (c == typed[currentIndex] || (c == previousChar)) {
                         println(c)
                         previousChar = typed[currentIndex]
@@ -161,7 +162,7 @@ object Tests {
                         counter = false
                     }
                 } else if (typed.length == currentIndex) {
-                    if (c == previousChar){
+                    if (c == previousChar) {
                         println(c)
                         isValid = true
                         counter = false
@@ -172,7 +173,7 @@ object Tests {
                     counter = false
                 }
             }
-            if (!isValid){
+            if (!isValid) {
                 return false
             }
         }
@@ -195,45 +196,44 @@ object Tests {
         return true
     }
 
-    fun isValidWebsite(s: String): Boolean{
+    fun isValidWebsite(s: String): Boolean {
         print("----------> ")
         val split = s.split(":")
-        if (split.size == 3){
+        if (split.size == 3) {
             println("BASE: ${split[0]}:${split[1]} | PORT: ${split[2]}")
-        }
-        else if (split.size == 2){
-            if (split[0].lowercase() == "http"){
+        } else if (split.size == 2) {
+            if (split[0].lowercase() == "http") {
                 println("BASE: ${split[0]}:${split[1]} | PORT: 80")
-            } else if (split[0].lowercase() == "https"){
+            } else if (split[0].lowercase() == "https") {
                 println("BASE: ${split[0]}:${split[1]} | PORT: 443")
             }
         }
         return true
     }
 
-    fun isLong(s: String): Long{
+    fun isLong(s: String): Long {
         return s.toLong()
     }
 
-    fun largestOdd(s: String): String{
-        for (i in s.length-1 downTo 0){
-            if (s[i].toString().toInt() % 2 == 1){
-                return s.subSequence(0, i+1).toString()
+    fun largestOdd(s: String): String {
+        for (i in s.length - 1 downTo 0) {
+            if (s[i].toString().toInt() % 2 == 1) {
+                return s.subSequence(0, i + 1).toString()
             }
         }
         return ""
     }
 
-    fun someCandy(candyType: IntArray): Int{
+    fun someCandy(candyType: IntArray): Int {
 
         print("[")
-        for (i in -100 .. 100){
+        for (i in -100..100) {
             print("$i, ")
         }
         print("]")
         val a = candyType.size / 2
         val b = candyType.distinct().size
-        return if (b > a){
+        return if (b > a) {
             a
         } else {
             b
@@ -246,9 +246,9 @@ object Tests {
         var count = 0
         for (i in 1 until s.length) {
             println("------------->>>>>>> $i")
-            if (i % 2 == 0 && s[i].digitToInt() != firstChar){
+            if (i % 2 == 0 && s[i].digitToInt() != firstChar) {
                 count++
-            } else if (i % 2 == 1 && s[i].digitToInt() == firstChar){
+            } else if (i % 2 == 1 && s[i].digitToInt() == firstChar) {
                 count++
             }
         }
@@ -256,9 +256,68 @@ object Tests {
     }
 
 
+    //    [[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]]
+    fun checkStraightLine(coordinates: Array<IntArray>): Boolean {
+        print("--------->   [")
+        var previousArray: IntArray? = null
+        var innerDifference = Int.MIN_VALUE
+        var isInvalid = true
+        coordinates.forEach {
+            print('[')
+            it.forEach { t ->
+                print("$t,")
+            }
+            if (previousArray != null) {
+                println("->->-> " + (it[1] - previousArray!![1]) / (it[0].toDouble() - previousArray!![0].toDouble()))
 
+                if (previousArray!![0] - it[0] != previousArray!![1] - it[1]) {
+                    return false
+                    // isInvalid = false
+                }
+            }
+            previousArray = it
+            if (innerDifference == Int.MIN_VALUE) {
+                innerDifference = it[1] - it[0]
+            }
+            if (innerDifference != (it[1] - it[0])) {
+                return false
+                // isInvalid = false
+            }
+            print("],")
+        }
+        println("]")
+        // return isInvalid
+        return true
+    }
 
+    fun compareVersion(version1: String, version2: String): Int {
+        val v1 = version1.split(".")
+        val v2 = version2.split(".")
 
+        var diff = 0.0
+        if (v1.size > v2.size){
+            v1.forEachIndexed { index, s ->
+                diff += if (v2.size < index){
+                    Math.pow(v1[index].toDouble()*10.0,-index.toDouble())
+                } else if(v2.size > index) {
+                    Math.pow((v1[index].toInt() - v2[index].toInt()) * (10).toDouble(), -index.toDouble())
+                } else {
+                    0.0
+                }
+            }
+        } else {
+            v2.forEachIndexed { index, s ->
+                diff += if (v1.size < index){
+                    Math.pow(v1[index].toDouble()*10.0,-index.toDouble())
+                } else if (v1.size > index){
+                    Math.pow((v1[index].toInt() - v2[index].toInt()) * (10).toDouble(), -index.toDouble())
+                } else {
+                    0.0
+                }
+            }
+        }
+        return if (diff < 0) {-1} else if (diff > 0) {1} else {0}
+    }
 
 
 }

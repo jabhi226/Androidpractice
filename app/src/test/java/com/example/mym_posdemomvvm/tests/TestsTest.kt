@@ -3,6 +3,7 @@ package com.example.mym_posdemomvvm.tests
 import org.junit.Test
 import com.google.common.truth.Truth.assertThat
 import java.math.BigDecimal
+import kotlin.random.Random
 
 class TestsTest {
 
@@ -113,6 +114,25 @@ class TestsTest {
     fun minOperations(){
         val t = Tests.minOperations("10010100")
         assertThat(t).isEqualTo(3)
+    }
+
+    @Test
+    fun checkStraightLine(){
+        val a = arrayListOf<IntArray>()
+        a.add(intArrayOf(0,0))
+        a.add(intArrayOf(0,1))
+        a.add(intArrayOf(0,-1))
+        val t = Tests.checkStraightLine(a.toTypedArray())
+        assertThat(t).isEqualTo(true)
+    }
+
+    @Test
+    fun compareVersion(){
+//        If version1 < version2, return -1.
+//        If version1 > version2, return 1.
+//        Otherwise, return 0.
+        val t = Tests.compareVersion("2.5.0", "2.5.0")
+        assertThat(t).isEqualTo(0)
     }
 
 }
