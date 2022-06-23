@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mym_posdemomvvm.NotificationBroadcast
 import com.example.mym_posdemomvvm.databinding.ActivityMainBinding
@@ -18,11 +19,16 @@ import com.example.mym_posdemomvvm.fragments.ShowAllMedicineFragment
 import com.example.mym_posdemomvvm.utils.Constants
 import com.example.mym_posdemomvvm.utils.SharedPrefs
 import com.example.mym_posdemomvvm.utils.Utils
+import com.example.mym_posdemomvvm.utils.Utils.TIMESTAMP
+import com.example.mym_posdemomvvm.utils.Utils.getFormattedDate
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -34,9 +40,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initViewModel()
+//        initViewModel()
         initListener()
-        getMeds()
+        test()
     }
 
     private fun initViewModel() {
@@ -48,8 +54,43 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        })
     }
 
-    private fun getMeds() {
+    private fun test() {
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Unconfined) {
+            val t = measureTimeMillis {
+                val job: Deferred<Int> = async {
+                    try {
+                        launch {
+                            for (i in 0..10) {
+                                println("-----------------> $i     -> ${Thread.currentThread().name}")
+                                delay(100)
+                            }
+//                        }
+//                        launch {
+                            for (i in 0..10) {
+                                println("-----------------> $i     -> ${Thread.currentThread().name}")
+                                delay(100)
+//                                if (i == 10)
+//                                    throw NullPointerException()
+                            }
+                        }
+                        1
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        -1
+                    }
+                }
+
+                println("Before     -> ${Thread.currentThread().name}")
+                delay(50)
+                println("job.isActive -> ${job.isActive} | ${job.isCancelled} | ${job.isCompleted}")
+                val a = job.await()
+                println("job.isActive -> ${job.isActive} | ${job.isCancelled} | ${job.isCompleted}")
+                println("After     -> $a| ${Thread.currentThread().name}")
+            }
+            println("ITTOOK -> $t")//1126 - 2231
+        }
     }
+
 
     private fun initListener() {
         binding.sales.setOnClickListener(this)
@@ -62,6 +103,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.statusScreen.setOnClickListener(this)
         binding.setAlarm.setOnClickListener(this)
         binding.cancelAlarm.setOnClickListener(this)
+        binding.shoNoti.setOnClickListener(this)
+        binding.cancelNoti.setOnClickListener(this)
+        binding.showEpoch.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -111,31 +155,65 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 this.startActivity(i)
             }
             binding.setAlarm.id -> {
-                notifyOnAlarm()
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                    println("Alarm ----> ${binding.timePicker.hour} | ${binding.timePicker.minute}")
-//                }
+//                notifyOnAlarm()
             }
-            binding.cancelAlarm.id -> {
-                (getSystemService(ALARM_SERVICE) as AlarmManager).cancel(getPenningIntent())
+            binding.cancelAlarm.id, binding.cancelNoti.id -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    (getSystemService(ALARM_SERVICE) as AlarmManager).cancel(getPenningIntent())
+                }
+            }
+            binding.shoNoti.id -> {
+                showNotification()
+            }
+            binding.showEpoch.id -> {
+                val time = binding.time1.text.split(":")
+                val c: Calendar = Calendar.getInstance()
+                c.add(Calendar.HOUR, time[0].toInt())// 16
+                c.set(Calendar.MINUTE, time[1].toInt())// 00
+                binding.showTotalTime.setText(c.time.getFormattedDate(TIMESTAMP))
             }
         }
     }
 
-    private fun notifyOnAlarm() {
-        SharedPrefs.setString(this, Constants.AMOUNT_IN_NOTIFICATION, "10000.0")
+    private fun showNotification() {
+        val alarmManager = (getSystemService(ALARM_SERVICE) as AlarmManager)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val c: Calendar = Calendar.getInstance()
-            c.add(Calendar.SECOND, 10)
-            (getSystemService(ALARM_SERVICE) as AlarmManager).setRepeating(
+            alarmManager.cancel(getPenningIntent())
+        }
+        val time = binding.time.text.split(":")
+        val c: Calendar = Calendar.getInstance()
+        c.add(Calendar.HOUR, time[0].toInt())
+        c.set(Calendar.MINUTE, time[1].toInt())
+
+        val oneMinuteLater = System.currentTimeMillis() + (1000 * 60)
+
+        println("Calender time set --------> ${c.timeInMillis} | $oneMinuteLater")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
-                c.timeInMillis,
-                1000 * 60,
+                oneMinuteLater,
+//                1000 * 60,
                 getPenningIntent()
             )
         }
+
     }
 
+//    private fun notifyOnAlarm() {
+//        SharedPrefs.setString(this, Constants.AMOUNT_IN_NOTIFICATION, "10000.0")
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            val c: Calendar = Calendar.getInstance()
+//            c.add(Calendar.SECOND, 10)
+//            (getSystemService(ALARM_SERVICE) as AlarmManager).setExact(
+//                AlarmManager.RTC_WAKEUP,
+//                c.timeInMillis,
+//                getPenningIntent()
+//            )
+//        }
+//    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun getPenningIntent(): PendingIntent? {
         return PendingIntent.getBroadcast(
             this,

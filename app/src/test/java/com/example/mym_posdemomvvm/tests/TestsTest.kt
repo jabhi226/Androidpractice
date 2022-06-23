@@ -1,9 +1,8 @@
 package com.example.mym_posdemomvvm.tests
 
-import org.junit.Test
 import com.google.common.truth.Truth.assertThat
+import org.junit.Test
 import java.math.BigDecimal
-import kotlin.random.Random
 
 class TestsTest {
 
@@ -135,4 +134,146 @@ class TestsTest {
         assertThat(t).isEqualTo(0)
     }
 
+    @Test
+    fun abc(){
+        val t = Tests.abc()
+        assertThat(t).isEqualTo("")
+    }
+
+    @Test
+    fun getDiscountFromMap(){
+        val outStanding = "cred=0.0, familyMemberBalance=0.0, patientDiscount=null, bal=0.0, loyaltyPoints=0.0"
+        val keyValuePairs: List<String> = outStanding.split(",")
+
+        val t = Tests.getDiscountFromMap(keyValuePairs)
+        assertThat(t).isEqualTo(10.0)
+    }
+
+    @Test
+    fun hammingWeight(){
+        val a = "11111111111111111111111111111111".toUInt(2).toInt()
+        val t = Tests.hammingWeight(a)
+        assertThat(t).isEqualTo(1)
+    }
+
+    @Test
+    fun makeGood() {
+        val a = "abBAcC"
+        val t = Tests.makeGood(a)
+        assertThat(t).isEqualTo("")
+    }
+
+    @Test
+    fun getDate(){
+        val a = "02/55"
+        val t = Tests.getDate(a)
+        assertThat(t).isEqualTo("01/02/2055")
+    }
+
+    @Test
+    fun sortSentence(){
+        val a = "Myself2 Me1 I4 and3"
+        val t = Tests.sortSentence(a)
+        assertThat(t).isEqualTo("Me Myself and I")
+    }
+
+    @Test
+    fun getRoundOff(){
+        val t = Tests.getRoundOff(7.905)
+        assertThat(t).isEqualTo(234.94)
+    }
+
+    @Test
+    fun getTotal(){
+        val t = Tests.getTotal(7.905)
+        assertThat(t).isEqualTo(657832.324)
+    }
+
+    @Test
+    fun groupThePeople(){
+        val a = intArrayOf(3,3,3,3,3,1,3)
+
+        val t = Tests.groupThePeople(a)
+
+        assertThat(t).isEqualTo(657832.324)
+
+    }
+
+    @Test
+    fun minPairSum(){
+        val a = intArrayOf(3,3,3,3,3,3)
+        val t = Tests.minPairSum(a)
+        assertThat(t).isEqualTo(6)
+    }
+
+    //0,
+    //2,4,5,6,2,3,4
+
+    @Test
+    fun calculation(){
+        val t = Tests.calculation()
+        assertThat(t).isEqualTo("")
+    }
+
+    @Test
+    fun countSubstrings(){
+        val t = Tests.countSubstrings("abccba")
+        assertThat(t).isEqualTo(8)
+    }
+
+    @Test
+    fun findMinNumOfCoins(){
+        val t = Tests.findMinNumOfCoins(203)
+        assertThat(t).isEqualTo(200)
+    }
+
+    @Test
+    fun medicineLevelDiscount(){
+        val t = Tests.medicineLevelDiscount()
+        assertThat(t).isNull()
+    }
+
+    @Test
+    fun emptyArray(){
+        val t = Tests.emptyArray()
+        assertThat(t).isNull()
+    }
+
+    @Test
+    fun somethingMinSwap(){
+        val s = "]]][[["
+        val t = Tests.somethingMinSwap(s)
+        assertThat(t).isEqualTo(0)
+    }
+
+    @Test
+    fun getMedicineMrpFromName(){
+        val t = Tests.getMedicineMrpFromName("CROCIN")
+        assertThat(t).isEqualTo("CROCIN")
+    }
+
+    @Test
+    fun scriptGenerator(){
+        val t = Tests.scriptGenerator()
+        assertThat(t).isEqualTo("CROCIN")
+    }
+
+    @Test
+    fun getDataTypeByValue(){
+        val t = Tests.getDataTypeByValue()
+        assertThat(t).isEqualTo("CROCIN")
+    }
+
+    @Test
+    fun convertColumnToRow(){
+        val t = Tests.convertColumnToRow()
+        assertThat(t).isEqualTo("CROCIN")
+    }
+
 }
+
+
+
+
+
+

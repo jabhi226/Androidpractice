@@ -4,6 +4,8 @@ import android.content.Context
 import android.widget.Toast
 import java.io.IOException
 import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Utils {
     fun showToast(context: Context, text: String){
@@ -27,4 +29,16 @@ object Utils {
     }
 
 
+    const val TIMESTAMP = "yyyy-MM-dd HH:mm:ss"
+    fun Date.getFormattedDate(inputFormat: String): String {
+        return try {
+            val formattedDate =
+                SimpleDateFormat(inputFormat, Locale.ENGLISH)
+            val convertedDate = formattedDate.format(this)
+            convertedDate
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            Date().getFormattedDate(TIMESTAMP)
+        }
+    }
 }

@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/medicine_name"
-        android:text="Medicine Name"
         android:textSize="16sp"
         android:layout_margin="8sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,7 +17,6 @@
 
     <TextView
         android:id="@+id/isH1"
-        android:text="true"
         android:textSize="16sp"
         android:layout_margin="8sp"
         app:layout_constraintTop_toBottomOf="@id/medicine_name"
@@ -27,7 +26,6 @@
 
     <TextView
         android:id="@+id/divisor"
-        android:text="10"
         android:textSize="16sp"
         android:layout_margin="8sp"
         app:layout_constraintTop_toBottomOf="@id/isH1"
@@ -41,6 +39,14 @@
         android:layout_height="1dp"
         android:background="@color/purple_200"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view_2"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/purple_200"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

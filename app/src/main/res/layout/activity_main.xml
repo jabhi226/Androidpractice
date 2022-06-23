@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,88 +9,151 @@
 
     <LinearLayout
         android:id="@+id/activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/sales"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sales"/>
+            android:text="Sales" />
 
         <Button
             android:id="@+id/purchase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Purchase"/>
+            android:text="Purchase" />
 
         <Button
             android:id="@+id/add_medicine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Medicine"/>
+            android:text="Add Medicine" />
 
         <Button
             android:id="@+id/show_all_medicines"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show ALl Medicine"/>
+            android:text="Show ALl Medicine" />
 
         <Button
             android:id="@+id/show_medicines_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show Medicine Stock"/>
+            android:text="Show Medicine Stock" />
 
         <Button
             android:id="@+id/manufacture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="manufacture"/>
+            android:text="manufacture" />
 
         <Button
             android:id="@+id/export"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Export"/>
+            android:text="Export" />
 
         <Button
             android:id="@+id/status_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status Screen"/>
+            android:text="Status Screen" />
 
-<!--        <TimePicker-->
-<!--            android:id="@+id/time_picker"-->
-<!--            android:timePickerMode="spinner"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"/>-->
+        <!--        <TimePicker-->
+        <!--            android:id="@+id/time_picker"-->
+        <!--            android:timePickerMode="spinner"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"/>-->
 
-        <Button
-            android:text="Set Alarm"
-            android:id="@+id/set_alarm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <Button
-            android:text="Cancel Alarm"
-            android:id="@+id/cancel_alarm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/set_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set Alarm" />
+
+            <Button
+                android:id="@+id/cancel_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel Alarm" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8sp"
+                android:text="13:50" />
+
+            <Button
+                android:id="@+id/sho_noti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Show Notif" />
+
+            <Button
+                android:id="@+id/cancel_noti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Stop Noti" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/time_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8sp"
+                android:text="13:50" />
+
+            <Button
+                android:id="@+id/show_epoch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Show epoch" />
+
+            <EditText
+                android:id="@+id/show_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="" />
+        </LinearLayout>
 
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/main_frame"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

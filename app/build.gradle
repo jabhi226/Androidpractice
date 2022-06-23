@@ -5,22 +5,27 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     buildFeatures {
         viewBinding = true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.1.1'
     }
 
     defaultConfig {
         applicationId "com.example.mym_posdemomvvm"
         minSdk 21
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions{
+        javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation":
                                       "$projectDir/schemas".toString()]
@@ -44,36 +49,36 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
     def lifecycle_version = "2.4.0-rc01"
     def arch_version = "2.1.0"
     def room_version = "2.4.0"
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     // Annotation processor
-    kapt "androidx.lifecycle:lifecycle-compiler:2.4.0"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.4.1"
 
     // RoomDb
-    implementation "androidx.room:room-runtime:2.4.1"
-    implementation 'androidx.room:room-ktx:2.4.1'
-    kapt "androidx.room:room-compiler:2.4.1"
-    implementation "androidx.room:room-paging:2.4.1"
+    implementation "androidx.room:room-runtime:2.4.2"
+    implementation 'androidx.room:room-ktx:2.4.2'
+    kapt "androidx.room:room-compiler:2.4.2"
+    implementation "androidx.room:room-paging:2.4.2"
 
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 
     // pagination
-    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
-    testImplementation "androidx.paging:paging-common-ktx:3.1.0"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    testImplementation "androidx.paging:paging-common-ktx:3.1.1"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -88,6 +93,15 @@ dependencies {
     androidTestImplementation "com.google.truth:truth:1.1.3"
     androidTestImplementation "android.arch.persistence.room:testing:1.1.1"
 
+
+    // Jetpack dependencies
+    implementation "androidx.compose.ui:ui:1.1.1"
+    implementation "androidx.compose.material:material:1.1.1"
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    // Jetpack debug dependencies
+    debugImplementation "androidx.compose.ui:ui-tooling:1.1.1"
+
+    testImplementation 'org.json:json:20140107'
 
 //    cd C:\Users\Abhishek\AppData\Local\Android\sdk\platform-tools
 }
