@@ -20,18 +20,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".moduls.recyclerviewswipe.RecyclerViewSwipeActivity"
-            android:exported="true" >
+            android:name=".moduls.smootheswipe.SmoothSwipeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".moduls.recyclerviewswipe.RecyclerViewSwipeActivity"
+            android:exported="true"></activity>
         <activity
             android:name=".moduls.swipetoshowbutton.SwipeActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".activities.StatusActivity"
             android:exported="false" />

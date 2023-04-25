@@ -112,4 +112,6 @@ class AndroidTests {
             RetailerDb.MIGRATION_1_2)
     }
 
+
+
 }
