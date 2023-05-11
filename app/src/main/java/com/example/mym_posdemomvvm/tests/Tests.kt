@@ -1,8 +1,5 @@
 package com.example.mym_posdemomvvm.tests
 
-import android.text.Selection.moveRight
-import androidx.core.graphics.createBitmap
-
 object Tests {
 
     const val batchQty = 12
@@ -233,12 +230,12 @@ object Tests {
     }
 
     fun topKFrequent(nums: IntArray, k: Int): IntArray {
-        var list = Array(k){ -1}
+        var list = Array(k) { -1 }
         nums.distinct().forEach { num ->
             val a = getCount(nums, num)
             val b = getCount(nums, list[0])
             println("$num | $a | ${list[0]} | $b")
-            if (a >= b){
+            if (a >= b) {
                 println("-----> $num")
                 list[0] = num
             }
@@ -247,12 +244,12 @@ object Tests {
         return list.toIntArray()
     }
 
-    private fun getCount(list: IntArray, num: Int): Int{
+    private fun getCount(list: IntArray, num: Int): Int {
         return list.filter { it == num && it != -1 }.size
     }
 
-    fun map(nums: IntArray, k: Int){
-        var list = Array(k){ -1}
+    fun map(nums: IntArray, k: Int) {
+        var list = Array(k) { -1 }
 
         val map = mutableMapOf<Int, Int>()
         nums.distinct().forEach { num ->
@@ -261,11 +258,10 @@ object Tests {
         println(map)
 
         map.forEach {
-            if (!map.containsKey(list[0])){
+            if (!map.containsKey(list[0])) {
                 list[0] = it.value
                 list = list.sortedArray()
-            }
-            else if (it.key >= map.getValue(list[0])){
+            } else if (it.key >= map.getValue(list[0])) {
                 list[0] = it.value
                 list = list.sortedArray()
             }
@@ -276,10 +272,10 @@ object Tests {
         }
     }
 
-    fun pairInArray(list: IntArray, sum: Int): Boolean{
-        for (i in 0..list.size-2) {
+    fun pairInArray(list: IntArray, sum: Int): Boolean {
+        for (i in 0..list.size - 2) {
             println("----> ${list.filter { it != list[i] }}")
-            if (list.filter { it != list[i] }.contains(sum - list[i])){
+            if (list.filter { it != list[i] }.contains(sum - list[i])) {
                 println("${list[i]} | $i | ${sum - list[i]}")
                 return true
             }
@@ -292,6 +288,40 @@ object Tests {
         val a = nums[0] / 2
         println()
         return nums.minOrNull()!!
+    }
+
+
+    fun findingUsersActiveMinutes(logs: Array<IntArray>, k: Int): IntArray {
+        val actualLogs = ArrayList<IntArray>()
+        val finalArray = ArrayList<Int>()
+        for (i in 0 until k) {
+            finalArray.add(0)
+        }
+        val realFinalArray = ArrayList<Int>()
+        for (i in 0 until k) {
+            realFinalArray.add(0)
+        }
+        val new = ArrayList<IntArray>()
+        val toRemove = ArrayList<IntArray>()
+        for (i in logs.indices) {
+            if (new.contains(logs[i])){
+                println("------->" + logs[i].toMutableList())
+                toRemove.add(logs[i])
+            }
+            new.add(logs[i])
+        }
+        actualLogs.addAll(new.filter { !toRemove.contains(it) })
+
+        actualLogs.forEachIndexed { index, ints ->
+            println("---> ${ints.toMutableList()}")
+            val person = ints[0]
+            val time = ints[1]
+            finalArray[person] = time
+        }
+        finalArray.forEachIndexed { index, i ->
+            realFinalArray[index] = finalArray.count { it == i }
+        }
+        return realFinalArray.toIntArray()
     }
 
 }
