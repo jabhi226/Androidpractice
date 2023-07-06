@@ -1,52 +1,52 @@
-//package com.example.mym_posdemomvvm.tests
-//
-//import com.google.common.truth.Truth.assertThat
-//import org.junit.Test
-//import java.math.BigDecimal
-//
-//class TestsTest {
-//
-//    @Test
-//    fun getFormatedText() {
-//        val a = Tests.getFormatedText("J,J")
-//        assertThat(a).isEqualTo("J%J")
-//    }
-//
-//    @Test
-//    fun extractNumberFromString() {
-//        val a  = Tests.extractNumberFromString("9123")
-//        assertThat(a).isEqualTo(9123)
-//    }
-//
-//    @Test
-//    fun setOnWheelItemSelectedListener() {
-//    }
-//
-//    @Test
-//    fun majorityElement() {
-//    }
-//
-//    @Test
-//    fun getLongNumber() {
-//        val a: Long = 999999L * 99999
-//        val t = Tests.getLongNumber()
-//        assertThat(t).isEqualTo(a.toString())
-//    }
-//
-//    @Test
-//    fun getNumberFormated() {
-//        val b: Double = 999999.99 * 999999 * 999
-//        val t = Tests.getNumberFormated(b)
-//        assertThat(t).isEqualTo("1234567890123456789")
-//    }
-//
-//    @Test
-//    fun getNumberInCurrency() {
-//        val b = BigDecimal.valueOf(1234567890.1234)
-//        val t = Tests.getNumberInCurrency(1234567890.12)
-//        assertThat(t).isEqualTo("1,234,567,890.12")
-//    }
-//
+package com.example.mym_posdemomvvm.tests
+
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
+import java.math.BigDecimal
+
+class TestsTest {
+
+    @Test
+    fun getFormatedText() {
+        val a = Tests.getFormatedText("J,J")
+        assertThat(a).isEqualTo("J%J")
+    }
+
+    @Test
+    fun extractNumberFromString() {
+        val a = Tests.extractNumberFromString("9123")
+        assertThat(a).isEqualTo(9123)
+    }
+
+    @Test
+    fun setOnWheelItemSelectedListener() {
+    }
+
+    @Test
+    fun majorityElement() {
+    }
+
+    @Test
+    fun getLongNumber() {
+        val a: Long = 999999L * 99999
+        val t = Tests.getLongNumber()
+        assertThat(t).isEqualTo(a.toString())
+    }
+
+    @Test
+    fun getNumberFormated() {
+        val b: Double = 999999.99 * 999999 * 999
+        val t = Tests.getNumberFormated(b)
+        assertThat(t).isEqualTo("1234567890123456789")
+    }
+
+    @Test
+    fun getNumberInCurrency() {
+        val b = BigDecimal.valueOf(1234567890.1234)
+        val t = Tests.getNumberInCurrency(1234567890.12)
+        assertThat(t).isEqualTo("1,234,567,890.12")
+    }
+
 //    @Test
 //    fun format1() {
 //        val t = Tests.format1(1234567890.1234)
@@ -269,69 +269,140 @@
 //        val t = Tests.convertColumnToRow()
 //        assertThat(t).isEqualTo("CROCIN")
 //    }
-//
-//    @Test
-//    fun longestCommonPrefix(){
-//        val a = arrayOf("ab","a")
-//        val t = Tests.longestCommonPrefix(a)
-//        assertThat(t).isEqualTo("a")
-//    }
-//
-//    @Test
-//    fun lengthOfLastWord(){
-//        val a = " "
-//        val t = Tests.lengthOfLastWord(a)
-//        assertThat(t).isEqualTo(0)
-//    }
-//
-//    @Test
-//    fun isLongPressedName(){
-//        val a = "alex"
-//        val b = "aaleeexx"
-//        val t = Tests.isLongPressedName(a, b)
-//        assertThat(t).isEqualTo(true)
-//    }
-//
-//    @Test
-//    fun tribonacci(){
-//        val t = Tests.tribonacci(32)
-//        assertThat(t).isEqualTo(98950096)
-//    }
-//
-//    @Test
-//    fun climbStairs(){
-//        val t = Tests.climbStairs(3)
-//        assertThat(t).isEqualTo(13)
-//    }
-//
-//
-//    @Test
-//    fun topKFrequent(){
-//        val nums = intArrayOf(1,1,1,1,2,2,2,3,3,4,4,4)
-//        val k = 3
-//        val t = Tests.topKFrequent(nums, k)
-//        assertThat(t).isEqualTo(intArrayOf(1,2))
-//    }
-//
-//    @Test
-//    fun map(){
-//        val nums = intArrayOf(1,1,1,1,2,2,2,3,3,4,4,4)
-//        Tests.map(nums, 2)
-//    }
-//
-//    @Test
-//    fun pairInArray(){
-//        val array = intArrayOf(11, 15, 6, 8, 9, 10)
-//        assertThat(Tests.pairInArray(array, 16)).isTrue()
-//    }
-//
-//
-//
-//
-//}
-//
-//
-//
-//
-//
-//
+
+    @Test
+    fun longestCommonPrefix() {
+        val a = arrayOf("ab", "a")
+        val t = Tests.longestCommonPrefix(a)
+        assertThat(t).isEqualTo("a")
+    }
+
+    @Test
+    fun lengthOfLastWord() {
+        val a = " "
+        val t = Tests.lengthOfLastWord(a)
+        assertThat(t).isEqualTo(0)
+    }
+
+    @Test
+    fun isLongPressedName1() {
+        val a = "alex"
+        val b = "aaleeexx"
+        val t = Tests.isLongPressedName(a, b)
+        assertThat(t).isEqualTo(true)
+    }
+
+    @Test
+    fun tribonacci() {
+        val t = Tests.tribonacci(32)
+        assertThat(t).isEqualTo(98950096)
+    }
+
+    @Test
+    fun climbStairs() {
+        val t = Tests.climbStairs(3)
+        assertThat(t).isEqualTo(13)
+    }
+
+
+    @Test
+    fun topKFrequent() {
+        val nums = intArrayOf(1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4)
+        val k = 3
+        val t = Tests.topKFrequent(nums, k)
+        assertThat(t).isEqualTo(intArrayOf(1, 2))
+
+        val b = 10
+    }
+
+    @Test
+    fun map() {
+        val nums = intArrayOf(1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4)
+        Tests.map(nums, 2)
+    }
+
+    @Test
+    fun pairInArray() {
+        val array = intArrayOf(11, 15, 6, 8, 9, 10)
+        assertThat(Tests.pairInArray(array, 16)).isTrue()
+    }
+
+    @Test
+    fun minPartitions() {
+        val test = Tests.minPartitions(
+            "8555555555"
+        )
+        assertThat(test).isEqualTo(8)
+    }
+
+    @Test
+    fun minPartitiodeepestLeavesSumns() {
+        val test = Tests.deepestLeavesSum(Tests.TreeNode(1))
+        assertThat(test).isEqualTo(1)
+    }
+
+    @Test
+    fun minOperations() {
+        val test = Tests.minOperations(3)
+        val a = assertThat(test)
+        a.isEqualTo(3)
+    }
+
+    @Test
+    fun permute() {
+        val test = Tests.permute(intArrayOf(1,2,3,4))
+        assertThat(test).isEqualTo(2)
+    }
+
+    @Test
+    fun removeDuplicates() {
+        val test = Tests.removeDuplicates(intArrayOf(1,1,1,2,2,3,3,3,3,4,4,5))
+        assertThat(test).isEqualTo(2)
+    }
+
+    @Test
+    fun gameOfLife() {
+        //[[0,1,0],[0,0,1],[1,1,1],[0,0,0]]
+        //[[1,1],[1,0]]
+        val req = arrayOf(
+            intArrayOf(0,1,0),
+            intArrayOf(0,0,1),
+            intArrayOf(1,1,1),
+            intArrayOf(0,0,0),
+        )
+        val test = Tests.gameOfLife(req)
+        assertThat(test).isEqualTo(2)
+    }
+
+    @Test
+    fun increaseLetters() {
+        val test = Tests.increaseLetters("abhishekz")
+        assertThat(test).isEqualTo("mntuetqwl")
+    }
+
+    @Test
+    fun removeDuplicateLetters() {
+        val test = Tests.removeDuplicateLetters("abhishek")
+        assertThat(test).isEqualTo(2)
+    }
+
+    @Test
+    fun testLinkedIn() {
+        val test = Tests.testLinkedIn()
+        assertThat(test).isEqualTo(2)
+    }
+
+    @Test
+    fun sortTheStudents() {
+        //[[10,6,9,1],[7,5,11,2],[4,8,3,15]]
+//        [3,4],[5,6]
+        val q = arrayOf(
+            intArrayOf(10,6,9,1),
+            intArrayOf(7,5,11,2),
+            intArrayOf(4,8,3,15),
+        )
+        val test = Tests.sortTheStudents(q, 2)
+        assertThat(test).isEqualTo(2)
+    }
+
+}

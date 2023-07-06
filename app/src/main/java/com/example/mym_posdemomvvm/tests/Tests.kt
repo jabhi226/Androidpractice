@@ -1,7 +1,9 @@
 package com.example.mym_posdemomvvm.tests
 
-import android.text.Selection.moveRight
-import androidx.core.graphics.createBitmap
+import kotlinx.coroutines.MainScope
+import org.json.JSONObject
+import java.lang.reflect.Array.set
+import kotlin.reflect.typeOf
 
 object Tests {
 
@@ -294,5 +296,276 @@ object Tests {
         return nums.minOrNull()!!
     }
 
+
+
+    fun minPartitions(n: String): Int {
+//        return n.max().toString().toInt()
+        return -1
+    }
+
+    class TreeNode(var `val`: Int) {
+        var left: TreeNode? = null
+        var right: TreeNode? = null
+    }
+
+    private var leafTotal = 0
+
+    fun deepestLeavesSum(root: TreeNode?): Int {
+        getLeafNode(root)
+        return leafTotal
+    }
+
+    private fun getLeafNode(root: TreeNode?) {
+        if (root == null) return
+        if (root.left == null && root.right == null){
+            leafTotal += root.`val`
+        }
+        if (root.left != null){
+            getLeafNode(root)
+        }
+        if (root.right != null){
+            getLeafNode(root)
+        }
+    }
+    
+    fun deepestLeavesSum1(root: TreeNode?){
+        var totalSum = 0
+        var currentRoot = root
+        if (root == null) return
+        while (root.left == null && root.right == null){
+            totalSum += root.`val`
+        }
+    }
+
+    fun minOperations(n: Int): Int {
+        var count = 0
+        for (i in 0 until (n / 2)) {
+            val last = (2 * (n - 1 - i)) + 1
+            val first = (2 * i) + 1
+            count += (last - first) / 2
+
+        }
+        return count
+    }
+
+    fun permute(nums: IntArray): List<List<Int>> {
+        var total = 0
+        val finalList = arrayListOf<List<Int>>()
+        if (nums.size == 1) {
+            finalList.add(listOf(nums[0]))
+        }
+        for (j in nums.indices) {
+            for (i in nums.indices) {
+                if (i == nums.size - 1){
+                    break
+                }
+                val temp = nums[i + 1]
+                nums[i + 1] = nums[i]
+                nums[i] = temp
+                total++
+                finalList.add(nums.toList())
+                nums.forEach {
+                    print(" $it")
+                }
+                println(". $total")
+            }
+        }
+        return emptyList()
+    }
+
+    fun uniquePaths(m: Int, n: Int): Int {
+        for (i in 0 until 100){
+
+        }
+        return -1
+    }
+
+    fun removeDuplicates(nums: IntArray): Int {
+        var finalCount = 0
+        var endCount = 0
+        val finalArray = arrayListOf<Int>()
+        var currentNumberCount = 0
+        var currentNumber = nums[0]
+        nums.forEach {
+            if (currentNumber != it) {
+                currentNumber = it
+                currentNumberCount = 0
+            }
+            currentNumberCount++
+            if (currentNumberCount < 3) {
+                finalCount++
+                finalArray.add(it)
+            } else {
+                finalArray.add(finalArray.size-1-endCount,it)
+                endCount++
+            }
+        }
+        return finalCount
+    }
+
+    class ListNode(var `val`: Int) {
+        var next: ListNode? = null
+    }
+    fun mergeNodes(head: ListNode?): ListNode? {
+        var currentHead = head
+        val list = arrayListOf<Int>()
+        var total = 0
+        while (currentHead?.`val` != null){
+            if (currentHead.`val` != 0){
+                total += currentHead.`val`
+            } else {
+                list.add(total)
+                total = 0
+            }
+            currentHead = currentHead.next
+        }
+        var a = getFinalNode(null, list)
+        while (a?.`val` != null){
+            println("--> " + a.`val` )
+            a = a.next
+        }
+        return null
+    }
+
+    private fun getFinalNode(nodeList: ListNode?, num: List<Int>): ListNode?{
+        if (num.isEmpty()){
+            return nodeList
+        }
+        if (nodeList == null){
+            getFinalNode(ListNode(num[num.size - 1]), num.drop(num.size - 1))
+        } else {
+            val n = ListNode(num[num.size - 1])
+            n.next = nodeList
+            getFinalNode(n, num.drop(num.size - 1))
+        }
+        return nodeList
+    }
+
+
+
+    fun gameOfLife(board: Array<IntArray>): Unit {
+//        val newBoard = Array(board.size){ Array(board[0].size){ 0 }.toIntArray() }
+        board.forEachIndexed { i, row ->
+            row.forEachIndexed { j, cell ->
+                var neighbour = 0
+                for (m in -1 .. 1){
+                    for (n in -1 .. 1){
+                        if (m == 0 && n == 0){
+                            continue
+                        }
+                        val (x, y) = Pair((m + i), (n + j))
+                        if (x < 0 || x > board.size - 1){
+                            continue
+                        }
+                        if (y < 0 || y > board[0].size - 1){
+                            continue
+                        }
+                        neighbour += board[x][y]
+                    }
+                }
+
+                when {
+                    (cell == 1 && (neighbour > 3 || neighbour < 2)) -> {
+                        board[i][j] = 0
+                    }
+                    (cell == 1 && (neighbour == 2 || neighbour == 3)) -> {
+                        board[i][j] = 1
+                    }
+                    (cell == 0 && neighbour == 3) -> {
+                        board[i][j] = 1
+                    }
+                }
+            }
+        }
+//        newBoard.copyInto(board)
+        board.forEach {
+            it.forEach {i ->
+                print("$i |")
+            }
+            println()
+        }
+    }
+
+    fun increaseLetters(s: String): String{
+        var res = ""
+        s.forEachIndexed { index, it ->
+            var char = it.plus(1000 % 26)
+            if (char.code > 122){
+                char = Char(96 + char.code - 122)
+            }
+            print(char)
+            res += char.toString()
+        }
+        return res
+    }
+
+    fun removeDuplicateLetters(s: String): String {
+        var a = ""
+        s.reversed().toSet().forEach {
+            a += it
+        }
+        return a
+    }
+
+    fun letterCombinations(digits: String): List<String> {
+
+        return listOf()
+    }
+
+    private fun t1(): Boolean{
+        return true
+    }
+
+    fun testLinkedIn(){
+        println(::t1.invoke())
+        println(3 as? String)
+
+        listOf<Int>().forEach {
+        }
+        listOf<Int>().filter { ::t1.invoke() }
+    }
+
+    //[[10,6,9,1],[7,5,11,2],[4,8,3,15]]
+    fun sortTheStudents(score: Array<IntArray>, k: Int): Array<IntArray> {
+        val json = JSONObject()
+        json.put("discc", null)
+        println(if (json.optDouble("discc").isNaN()) 0.0 else json.optDouble("discc"))
+//        for (i in score.indices){
+//            for (j in 0 until score.size - 1 - i) {
+//                if (score[j][k] < score[j + 1][k]){
+//                    val t = score[j]
+//                    score[j] = score[j + 1]
+//                    score[j + 1] = t
+//                }
+//            }
+//        }
+        return score
+    }
+
+    fun minPairSum(nums: IntArray): Int {
+//        for (i in nums.indices){
+//            for (j in 0 until nums.size - i - 1){
+//                if (nums[j] > nums[j + 1]){
+//                    val t = nums[j]
+//                    nums[j] = nums[j + 1]
+//                    nums[j + 1] = t
+//                }
+//            }
+//        }
+        val n1 = nums.sortedArray()
+        println("---> ${n1[0]} | ${n1[nums.size - 1]}" )
+        println(nums.joinToString(", "))
+        var largest = -1
+        for (i in 0 until nums.size / 2){
+            val l = n1[i] + n1[nums.size - 1 - i]
+            if (l > largest)
+                largest = l
+        }
+        return largest
+    }
+
 }
+// (11 - 1) / 2
+// (9 - 3) / 2
+// (7 - 5) / 2
 
