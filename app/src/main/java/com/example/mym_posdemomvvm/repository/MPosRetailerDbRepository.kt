@@ -5,17 +5,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
-import com.example.mym_posdemomvvm.daos.ManufactureDao
-import com.example.mym_posdemomvvm.daos.MedicineDao
+import com.example.mym_posdemomvvm.moduls.mposPoc.data.db.daos.ManufactureDao
+import com.example.mym_posdemomvvm.moduls.mposPoc.data.db.daos.MedicineDao
 import com.example.mym_posdemomvvm.datalayer.MPOSDataLayer
-import com.example.mym_posdemomvvm.models.Manufacture
-import com.example.mym_posdemomvvm.models.Medicine
-import com.example.mym_posdemomvvm.models.Medicine1
-import com.example.mym_posdemomvvm.paging.SearchMedicinePagingSource
-import com.example.mym_posdemomvvm.roomDb.RetailerDb
-import kotlinx.coroutines.Dispatchers
+import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Manufacture
+import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine
+import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine1
+import com.example.mym_posdemomvvm.moduls.mposPoc.ui.paging.SearchMedicinePagingSource
+import com.example.mym_posdemomvvm.moduls.mposPoc.data.db.RetailerDb
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 
 /**
  * Repo is a simple class which provide a clean API to access all dos.

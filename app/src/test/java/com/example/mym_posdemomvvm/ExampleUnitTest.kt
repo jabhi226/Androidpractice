@@ -12,6 +12,6 @@ class ExampleUnitTest {
     @Test
     fun sortTheStudents() {
         val test = Pracs.t1()
-        Truth.assertThat(test).isEqualTo(2)
+        Truth.assertThat(test).isEqualTo(Unit)
     }
 }
