@@ -19,16 +19,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".moduls.spannablegridlist.StaggeredGridActivity"
+            android:exported="false" />
         <activity
             android:name=".moduls.test.ui.activity.SecondActivity"
             android:exported="false" />
         <activity
             android:name=".moduls.test.ui.activity.FirstActivity"
-            android:exported="false">
-
-        </activity>
-
+            android:exported="false"></activity>
         <activity
             android:name=".moduls.recyclerviewswipe.RecyclerViewSwipeActivity"
             android:exported="true" />

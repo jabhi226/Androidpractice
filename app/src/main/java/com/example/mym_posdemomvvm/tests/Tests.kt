@@ -329,7 +329,106 @@ object Tests {
         return realFinalArray.toIntArray()
     }
 
-}
+    fun rotate(matrix: Array<IntArray>): Unit {
+        val n = matrix.size - 1
+        val finalList = Array(n + 1) { IntArray(n + 1) }
+        for (i in 0 .. n){
+            val array = IntArray(n + 1)
+            for (j in 0 .. n){
+                println("$i | ${n - j} | ${matrix[i][n - j]}")
+                array[j] = matrix[n - j][i]
+            }
+            finalList[i] = array
+        }
+        finalList.copyInto(matrix)
+        finalList.forEach {
+            it.forEach { a -> print("$a | ") }
+        }
+    }
+
+    fun garbageCollection(garbage: Array<String>, travel: IntArray): Int {
+        var metalCount = 0
+        var paperCount = 0
+        var glassCount = 0
+        garbage.forEachIndexed { index, it ->
+            if (it.contains("M")){
+                metalCount += it.count { it == 'M' }
+            }
+            if (it.contains("P")){
+                paperCount += it.count { it == 'P' }
+            }
+            if (it.contains("G")){
+                glassCount += it.count { it == 'G' }
+            }
+            if (index > 0){
+                metalCount += travel[index-1]
+                paperCount += travel[index-1]
+                glassCount += travel[index-1]
+            }
+            println("$index | $it | $metalCount | $paperCount | $glassCount | ${metalCount + paperCount + glassCount}")
+        }
+        var mCounter = false
+        var gCounter = false
+        var pCounter = false
+        var index = 0
+        for (it in garbage.reversed()){
+            if (mCounter && gCounter && pCounter) break
+            if (index < travel.size){
+                if (!it.contains("M") && !mCounter){
+                    metalCount -= travel[travel.size-1-index]
+                } else {
+                    mCounter = true
+                }
+                if (!it.contains("P") && !pCounter){
+                    paperCount -= travel[travel.size-1-index]
+                } else {
+                    pCounter = true
+                }
+                if (!it.contains("G") && !gCounter){
+                    glassCount -= travel[travel.size-1-index]
+                } else {
+                    gCounter = true
+                }
+            }
+            index++
+            println("$index | $it | $metalCount | $paperCount | $glassCount | ${metalCount + paperCount + glassCount}")
+        }
+        garbage.reversed().forEachIndexed { index, it ->
+        }
+
+        return metalCount + paperCount + glassCount
+    }
+
+    fun t1(){
+        println(Math.log(123.0))
+    }
+
+    fun findDuplicate(nums: IntArray): Int {
+        val a =  nums.clone().sortedArray()
+        for (i in a.indices) {
+            if (i == 0) continue
+            if (a[i] == a[i - 1])
+                return a[i]
+        }
+        return -1
+    }
+
+    fun getCommon(nums1: IntArray, nums2: IntArray): Int {
+
+        return -1
+    }
+
+    fun binarySearch(test: IntArray, target: Int): Int {
+        if (target == test[test.size / 2]) {
+            return test.size / 2
+        }
+        if (target < test[test.size / 2]){
+            binarySearch(test.copyOfRange(0, test.size / 2), target)
+        } else {
+            binarySearch(test.copyOfRange((test.size / 2) + 1, test.size - 1), target)
+        }
+        return -1
+    }
 
 
     fun minPartitions(n: String): Int {
@@ -546,17 +645,12 @@ object Tests {
         return listOf()
     }
 
-    private fun t1(): Boolean{
-        return true
-    }
-
     fun testLinkedIn(){
         println(::t1.invoke())
         println(3 as? String)
 
         listOf<Int>().forEach {
         }
-        listOf<Int>().filter { ::t1.invoke() }
     }
 
     //[[10,6,9,1],[7,5,11,2],[4,8,3,15]]
