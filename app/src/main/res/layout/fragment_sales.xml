@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".fragments.SalesFragment">
+    tools:context=".moduls.mposPoc.ui.fragments.SalesFragment">
 
     <EditText
         android:id="@+id/medicine_name_et"

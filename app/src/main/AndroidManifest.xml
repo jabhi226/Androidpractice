@@ -19,27 +19,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".moduls.smootheswipe.SmoothSwipeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".moduls.test.ui.activity.SecondActivity"
+            android:exported="false" />
+        <activity
+            android:name=".moduls.test.ui.activity.FirstActivity"
+            android:exported="false">
+
         </activity>
 
         <activity
             android:name=".moduls.recyclerviewswipe.RecyclerViewSwipeActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".moduls.swipetoshowbutton.SwipeActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
-            android:name=".activities.StatusActivity"
+            android:name=".moduls.mposPoc.ui.activities.StatusActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".moduls.mposPoc.ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".NotificationBroadcast" />
+        <receiver android:name=".moduls.mposPoc.ui.NotificationBroadcast" />
     </application>
 
 </manifest>
