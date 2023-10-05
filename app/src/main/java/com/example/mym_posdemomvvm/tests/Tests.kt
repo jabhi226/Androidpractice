@@ -235,12 +235,12 @@ object Tests {
     }
 
     fun topKFrequent(nums: IntArray, k: Int): IntArray {
-        var list = Array(k){ -1}
+        var list = Array(k) { -1 }
         nums.distinct().forEach { num ->
             val a = getCount(nums, num)
             val b = getCount(nums, list[0])
             println("$num | $a | ${list[0]} | $b")
-            if (a >= b){
+            if (a >= b) {
                 println("-----> $num")
                 list[0] = num
             }
@@ -249,12 +249,12 @@ object Tests {
         return list.toIntArray()
     }
 
-    private fun getCount(list: IntArray, num: Int): Int{
+    private fun getCount(list: IntArray, num: Int): Int {
         return list.filter { it == num && it != -1 }.size
     }
 
-    fun map(nums: IntArray, k: Int){
-        var list = Array(k){ -1}
+    fun map(nums: IntArray, k: Int) {
+        var list = Array(k) { -1 }
 
         val map = mutableMapOf<Int, Int>()
         nums.distinct().forEach { num ->
@@ -263,11 +263,10 @@ object Tests {
         println(map)
 
         map.forEach {
-            if (!map.containsKey(list[0])){
+            if (!map.containsKey(list[0])) {
                 list[0] = it.value
                 list = list.sortedArray()
-            }
-            else if (it.key >= map.getValue(list[0])){
+            } else if (it.key >= map.getValue(list[0])) {
                 list[0] = it.value
                 list = list.sortedArray()
             }
@@ -278,10 +277,10 @@ object Tests {
         }
     }
 
-    fun pairInArray(list: IntArray, sum: Int): Boolean{
-        for (i in 0..list.size-2) {
+    fun pairInArray(list: IntArray, sum: Int): Boolean {
+        for (i in 0..list.size - 2) {
             println("----> ${list.filter { it != list[i] }}")
-            if (list.filter { it != list[i] }.contains(sum - list[i])){
+            if (list.filter { it != list[i] }.contains(sum - list[i])) {
                 println("${list[i]} | $i | ${sum - list[i]}")
                 return true
             }
@@ -296,6 +295,140 @@ object Tests {
         return nums.minOrNull()!!
     }
 
+
+    fun findingUsersActiveMinutes(logs: Array<IntArray>, k: Int): IntArray {
+        val actualLogs = ArrayList<IntArray>()
+        val finalArray = ArrayList<Int>()
+        for (i in 0 until k) {
+            finalArray.add(0)
+        }
+        val realFinalArray = ArrayList<Int>()
+        for (i in 0 until k) {
+            realFinalArray.add(0)
+        }
+        val new = ArrayList<IntArray>()
+        val toRemove = ArrayList<IntArray>()
+        for (i in logs.indices) {
+            if (new.contains(logs[i])){
+                println("------->" + logs[i].toMutableList())
+                toRemove.add(logs[i])
+            }
+            new.add(logs[i])
+        }
+        actualLogs.addAll(new.filter { !toRemove.contains(it) })
+
+        actualLogs.forEachIndexed { index, ints ->
+            println("---> ${ints.toMutableList()}")
+            val person = ints[0]
+            val time = ints[1]
+            finalArray[person] = time
+        }
+        finalArray.forEachIndexed { index, i ->
+            realFinalArray[index] = finalArray.count { it == i }
+        }
+        return realFinalArray.toIntArray()
+    }
+
+    fun rotate(matrix: Array<IntArray>): Unit {
+        val n = matrix.size - 1
+        val finalList = Array(n + 1) { IntArray(n + 1) }
+        for (i in 0 .. n){
+            val array = IntArray(n + 1)
+            for (j in 0 .. n){
+                println("$i | ${n - j} | ${matrix[i][n - j]}")
+                array[j] = matrix[n - j][i]
+            }
+            finalList[i] = array
+        }
+        finalList.copyInto(matrix)
+        finalList.forEach {
+            it.forEach { a -> print("$a | ") }
+        }
+    }
+
+    fun garbageCollection(garbage: Array<String>, travel: IntArray): Int {
+        var metalCount = 0
+        var paperCount = 0
+        var glassCount = 0
+        garbage.forEachIndexed { index, it ->
+            if (it.contains("M")){
+                metalCount += it.count { it == 'M' }
+            }
+            if (it.contains("P")){
+                paperCount += it.count { it == 'P' }
+            }
+            if (it.contains("G")){
+                glassCount += it.count { it == 'G' }
+            }
+            if (index > 0){
+                metalCount += travel[index-1]
+                paperCount += travel[index-1]
+                glassCount += travel[index-1]
+            }
+            println("$index | $it | $metalCount | $paperCount | $glassCount | ${metalCount + paperCount + glassCount}")
+        }
+        var mCounter = false
+        var gCounter = false
+        var pCounter = false
+        var index = 0
+        for (it in garbage.reversed()){
+            if (mCounter && gCounter && pCounter) break
+            if (index < travel.size){
+                if (!it.contains("M") && !mCounter){
+                    metalCount -= travel[travel.size-1-index]
+                } else {
+                    mCounter = true
+                }
+                if (!it.contains("P") && !pCounter){
+                    paperCount -= travel[travel.size-1-index]
+                } else {
+                    pCounter = true
+                }
+                if (!it.contains("G") && !gCounter){
+                    glassCount -= travel[travel.size-1-index]
+                } else {
+                    gCounter = true
+                }
+            }
+            index++
+            println("$index | $it | $metalCount | $paperCount | $glassCount | ${metalCount + paperCount + glassCount}")
+        }
+        garbage.reversed().forEachIndexed { index, it ->
+        }
+
+        return metalCount + paperCount + glassCount
+    }
+
+    fun t1(){
+        println(Math.log(123.0))
+    }
+
+    fun findDuplicate(nums: IntArray): Int {
+        val a =  nums.clone().sortedArray()
+        for (i in a.indices) {
+            if (i == 0) continue
+            if (a[i] == a[i - 1])
+                return a[i]
+        }
+        return -1
+    }
+
+    fun getCommon(nums1: IntArray, nums2: IntArray): Int {
+
+        return -1
+    }
+
+    fun binarySearch(test: IntArray, target: Int): Int {
+        if (target == test[test.size / 2]) {
+            return test.size / 2
+        }
+        if (target < test[test.size / 2]){
+            binarySearch(test.copyOfRange(0, test.size / 2), target)
+        } else {
+            binarySearch(test.copyOfRange((test.size / 2) + 1, test.size - 1), target)
+        }
+        return -1
+    }
 
 
     fun minPartitions(n: String): Int {
@@ -327,7 +460,7 @@ object Tests {
             getLeafNode(root)
         }
     }
-    
+
     fun deepestLeavesSum1(root: TreeNode?){
         var totalSum = 0
         var currentRoot = root
@@ -512,17 +645,12 @@ object Tests {
         return listOf()
     }
 
-    private fun t1(): Boolean{
-        return true
-    }
-
     fun testLinkedIn(){
         println(::t1.invoke())
         println(3 as? String)
 
         listOf<Int>().forEach {
         }
-        listOf<Int>().filter { ::t1.invoke() }
     }
 
     //[[10,6,9,1],[7,5,11,2],[4,8,3,15]]

@@ -27,6 +27,9 @@
             android:name=".moduls.periodicAlarmManager.PeriodicManagerActivity"
             android:exported="false" />
         <activity
+            android:name=".moduls.spannablegridlist.StaggeredGridActivity"
+            android:exported="false" />
+        <activity
             android:name=".moduls.test.ui.activity.SecondActivity"
             android:exported="false" />
         <activity

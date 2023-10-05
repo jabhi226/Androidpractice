@@ -303,6 +303,43 @@ class TestsTest {
         val t = Tests.climbStairs(3)
         assertThat(t).isEqualTo(13)
     }
+    @Test
+    fun rotate() {
+        val array = arrayOf(
+            intArrayOf(5,1,9,11),
+            intArrayOf(2,4,8,10),
+            intArrayOf(13,3,6,7),
+            intArrayOf(15,14,12,16),
+        )
+
+        assertThat(
+            Tests.rotate(array)
+        ).isEqualTo(null)
+    }
+
+    @Test
+    fun garbageCollection() {
+        assertThat(
+            Tests.garbageCollection(TestCases.array, TestCases.a)
+        ).isEqualTo(21)
+    }
+
+
+    @Test
+    fun t1() {
+        assertThat(Tests.t1()).isEqualTo(21)
+    }
+
+    @Test
+    fun findDuplicate() {
+        assertThat(Tests.findDuplicate(intArrayOf(1,4,6,2,7,4))).isEqualTo(21)
+    }
+
+    @Test
+    fun binarySearch() {
+        assertThat(Tests.binarySearch(intArrayOf(1,4,5,7,9,12,15),5)).isEqualTo(21)
+    }
+
 
 
     @Test
