@@ -1,5 +1,6 @@
 package com.example.mym_posdemomvvm.moduls.test.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.mym_posdemomvvm.databinding.FragmentFirstBinding
+import com.example.mym_posdemomvvm.moduls.test.ui.activity.FirstActivity
 import com.example.mym_posdemomvvm.moduls.test.ui.viewModel.TestViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class FirstFragment : Fragment() {
@@ -20,6 +24,7 @@ class FirstFragment : Fragment() {
 
     private lateinit var binding: FragmentFirstBinding
     private lateinit var viewModel: TestViewModel
+
     private val scope =
         CoroutineScope(Dispatchers.Main + CoroutineExceptionHandler { _, throwable ->
             println(throwable.message)
@@ -50,26 +55,22 @@ class FirstFragment : Fragment() {
         initView()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView() {
         viewModel = ViewModelProvider(requireActivity())[TestViewModel::class.java]
+        lifecycleScope.launch {
+            delay(5000)
+            binding.btn1.text =
+                "Text changed after 5 Seconds but it will set to default after screen rotation"
+        }
         binding.btn1.setOnClickListener {
-            scope.launch {
-                viewModel.currentFragment.emit(SecondFragment())
-//                viewModel.currentFragmentName.emit(SecondFragment().javaClass.simpleName)
-            }
+            (requireActivity() as FirstActivity).replaceFragment(SecondFragment())
         }
 
-
-        CoroutineScope(Dispatchers.Main).launch {
-            while (false){
-                for (i in 0 .. 100 step 25){
-                    delay(2000)
-                    viewModel.progress.postValue(i.toString())
-                }
+        lifecycleScope.launch {
+            viewModel.fragment1Count.observe(viewLifecycleOwner) {
+                binding.text.text = "Count: $it"
             }
-        }
-        viewModel.progress.observe(requireActivity()){
-            println("---> $it")
         }
     }
 

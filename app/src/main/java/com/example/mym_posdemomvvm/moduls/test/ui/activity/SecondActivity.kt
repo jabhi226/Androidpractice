@@ -5,6 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.example.mym_posdemomvvm.R
+import com.example.mym_posdemomvvm.utils.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +21,12 @@ class SecondActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         println("---> onStart2 ")
+
+        CoroutineScope(Dispatchers.Main).launch {
+            this@SecondActivity.finish()
+            delay(5000)
+            Utils.showToast(this@SecondActivity, "sdfsdfsdf")
+        }
     }
 
     override fun onResume() {

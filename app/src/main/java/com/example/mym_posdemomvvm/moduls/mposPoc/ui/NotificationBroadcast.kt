@@ -80,15 +80,13 @@ class NotificationBroadcast : BroadcastReceiver() {
                 manager.notify(100, notificationBuilder.build())
 
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val s = System.currentTimeMillis() + (1000 * 60)
-                    println("------------>$s")
-                    (it.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager).setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        s,
-                        getPenningIntent(it)
-                    )
-                }
+                val s = System.currentTimeMillis() + (1000 * 60)
+                println("------------>$s")
+                (it.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager).setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    s,
+                    getPenningIntent(it)
+                )
             }
         }
 

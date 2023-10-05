@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mym_posdemomvvm">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -19,16 +20,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name="com.example.floatingkeyboard.DragViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".moduls.periodicAlarmManager.PeriodicManagerActivity"
+            android:exported="false" />
         <activity
             android:name=".moduls.test.ui.activity.SecondActivity"
             android:exported="false" />
         <activity
             android:name=".moduls.test.ui.activity.FirstActivity"
-            android:exported="false">
-
-        </activity>
-
+            android:exported="false" />
         <activity
             android:name=".moduls.recyclerviewswipe.RecyclerViewSwipeActivity"
             android:exported="true" />

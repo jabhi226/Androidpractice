@@ -3,27 +3,22 @@ package com.example.mym_posdemomvvm.moduls.test.ui.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.LayoutInflater
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.mym_posdemomvvm.R
 import com.example.mym_posdemomvvm.databinding.ActivityFirstBinding
 import com.example.mym_posdemomvvm.moduls.test.ui.fragments.FirstFragment
-import com.example.mym_posdemomvvm.moduls.test.ui.fragments.SecondFragment
 import com.example.mym_posdemomvvm.moduls.test.ui.viewModel.TestViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
+import com.example.mym_posdemomvvm.utils.Utils.getStoredFragment
 import kotlinx.coroutines.launch
 
 class FirstActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFirstBinding
-    private lateinit var viewModel: TestViewModel
-    private val scope =
-        CoroutineScope(Dispatchers.Main + CoroutineExceptionHandler { _, throwable ->
-            println(throwable.message)
-        })
+    private val viewModel by viewModels<TestViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,43 +27,48 @@ class FirstActivity : AppCompatActivity() {
         setContentView(binding.root)
         initView()
         observeData()
-    }
 
-    private fun observeData() {
-        scope.launch {
-//            if (viewModel.currentFragment.value == null){
-//                viewModel.currentFragment.emit(FirstFragment())
-//            }
-            viewModel.currentFragment.collectLatest {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.frame_first, it, it.javaClass.simpleName)
-                    .addToBackStack(null)
-                    .commit()
+        if (savedInstanceState != null) {
+            savedInstanceState.getStoredFragment(supportFragmentManager, "myFragmentName")?.let {
+                replaceFragment(it)
             }
-//            viewModel.currentFragmentName.collectLatest {
-//                val fragment: Fragment? = when (it){
-//                    FirstFragment().javaClass.simpleName -> {
-//                        FirstFragment()
-//                    }
-//                    SecondFragment().javaClass.simpleName -> {
-//                        SecondFragment()
-//                    }
-//                    else -> {
-//                        null
-//                    }
-//                }
-//                fragment?.let {f ->
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.frame_first, f, f.javaClass.simpleName)
-//                        .addToBackStack(null)
-//                        .commit()
-//                }
-//            }
+        } else {
+            replaceFragment(FirstFragment())
         }
     }
 
+    private fun observeData() {
+        lifecycleScope.launch {
+            viewModel.progress.observe(this@FirstActivity){
+                binding.pBar3.progress = it
+                when {
+                    it >= 100 -> {
+                        binding.ivP3.setImageResource(R.drawable.pokemon_black)
+                    }
+                    it >= 50 -> {
+                        binding.ivP2.setImageResource(R.drawable.pokemon_black)
+                    }
+                    it >= 10 -> {
+                        binding.ivP1.setImageResource(R.drawable.pokemon_black)
+                    }
+                    else -> {
+                        binding.ivP1.setImageResource(R.drawable.pokemon_grey)
+                        binding.ivP2.setImageResource(R.drawable.pokemon_grey)
+                        binding.ivP3.setImageResource(R.drawable.pokemon_grey)
+                    }
+                }
+            }
+        }
+    }
+
+    fun replaceFragment(it: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(binding.frameFirst.id, it, it.javaClass.simpleName)
+            .addToBackStack(it.javaClass.simpleName)
+            .commit()
+    }
+
     private fun initView() {
-        viewModel = ViewModelProvider(this)[TestViewModel::class.java]
         binding.btn1.setOnClickListener {
             val i = Intent(this, SecondActivity::class.java)
             startActivity(i)
@@ -105,20 +105,95 @@ class FirstActivity : AppCompatActivity() {
         println("---> onDestroy")
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        supportFragmentManager.findFragmentById(R.id.frame_first).let {
-            scope.launch {
-                when (it) {
-                    is FirstFragment -> {
-                        this@FirstActivity.finish()
-                    }
-                    is SecondFragment -> {
-                        viewModel.currentFragment.emit(FirstFragment())
-//                        viewModel.currentFragmentName.emit(FirstFragment().javaClass.simpleName)
-                    }
-                }
-            }
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+
+        supportFragmentManager.findFragmentById(binding.frameFirst.id)?.let {
+            supportFragmentManager.putFragment(outState, "myFragmentName", it)
         }
     }
+
+    /*
+
+    Example an activity have 2 fragments and we use FragmentManager to replace/add with addToBackstack each fragment to a layout in activity
+
+    Use replace
+
+    Go Fragment1
+
+    Fragment1: onAttach
+    Fragment1: onCreate
+    Fragment1: onCreateView
+    Fragment1: onActivityCreated
+    Fragment1: onStart
+    Fragment1: onResume
+
+    Go Fragment2
+
+    Fragment2: onAttach
+    Fragment2: onCreate
+    Fragment1: onPause
+    Fragment1: onStop
+    Fragment1: onDestroyView
+    Fragment2: onCreateView
+    Fragment2: onActivityCreated
+    Fragment2: onStart
+    Fragment2: onResume
+
+    Pop Fragment2
+
+    Fragment2: onPause
+    Fragment2: onStop
+    Fragment2: onDestroyView
+    Fragment2: onDestroy
+    Fragment2: onDetach
+    Fragment1: onCreateView
+    Fragment1: onStart
+    Fragment1: onResume
+
+    Pop Fragment1
+
+    Fragment1: onPause
+    Fragment1: onStop
+    Fragment1: onDestroyView
+    Fragment1: onDestroy
+    Fragment1: onDetach
+
+    Use add
+
+    Go Fragment1
+
+    Fragment1: onAttach
+    Fragment1: onCreate
+    Fragment1: onCreateView
+    Fragment1: onActivityCreated
+    Fragment1: onStart
+    Fragment1: onResume
+
+    Go Fragment2
+
+    Fragment2: onAttach
+    Fragment2: onCreate
+    Fragment2: onCreateView
+    Fragment2: onActivityCreated
+    Fragment2: onStart
+    Fragment2: onResume
+
+    Pop Fragment2
+
+    Fragment2: onPause
+    Fragment2: onStop
+    Fragment2: onDestroyView
+    Fragment2: onDestroy
+    Fragment2: onDetach
+
+    Pop Fragment1
+
+    Fragment1: onPause
+    Fragment1: onStop
+    Fragment1: onDestroyView
+    Fragment1: onDestroy
+    Fragment1: onDetach
+
+     */
 }

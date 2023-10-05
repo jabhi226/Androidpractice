@@ -1,22 +1,30 @@
 package com.example.mym_posdemomvvm.moduls.test.ui.viewModel
 
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mym_posdemomvvm.moduls.test.ui.fragments.FirstFragment
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class TestViewModel : ViewModel() {
 
-    val currentFragment: MutableStateFlow<Fragment> = MutableStateFlow(FirstFragment())
-    val currentFragmentName: MutableStateFlow<String> = MutableStateFlow(FirstFragment().javaClass.simpleName)
+    val fragment1Count = MutableLiveData<Int>()
+    var progress: MutableLiveData<Int> = MutableLiveData()
 
-//    init {
-//        CoroutineScope(Dispatchers.Default).launch {
-//            currentFragment.emit(FirstFragment())
-//        }
-//    }
-
-    var progress: MutableLiveData<String> = MutableLiveData("25")
+    init {
+        viewModelScope.launch {
+            for (i in 0..Int.MAX_VALUE) {
+                delay(1000)
+                fragment1Count.postValue(i)
+            }
+        }
+        viewModelScope.launch {
+            for (i in 0 .. 100 step 5){
+                delay(1000)
+                progress.postValue(i)
+                println("====> $i ${Thread.currentThread().name}")
+            }
+        }
+    }
 
 }

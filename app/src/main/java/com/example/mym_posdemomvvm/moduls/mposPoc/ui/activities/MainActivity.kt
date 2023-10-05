@@ -8,14 +8,16 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mym_posdemomvvm.moduls.mposPoc.ui.NotificationBroadcast
 import com.example.mym_posdemomvvm.databinding.ActivityMainBinding
+import com.example.floatingkeyboard.DragViewActivity
 import com.example.mym_posdemomvvm.moduls.mposPoc.ui.fragments.AddMedicineFragment
 import com.example.mym_posdemomvvm.moduls.mposPoc.ui.fragments.ManufacturersFragment
 import com.example.mym_posdemomvvm.moduls.mposPoc.ui.fragments.SalesFragment
 import com.example.mym_posdemomvvm.moduls.mposPoc.ui.fragments.ShowAllMedicineFragment
+import com.example.mym_posdemomvvm.moduls.periodicAlarmManager.PeriodicManagerActivity
+import com.example.mym_posdemomvvm.moduls.test.ui.activity.FirstActivity
 import com.example.mym_posdemomvvm.utils.Constants
 import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.utils.Utils.TIMESTAMP
@@ -104,6 +106,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.shoNoti.setOnClickListener(this)
         binding.cancelNoti.setOnClickListener(this)
         binding.showEpoch.setOnClickListener(this)
+        binding.testFragment.setOnClickListener(this)
+        binding.testAmWn.setOnClickListener(this)
+        binding.dragView.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -170,14 +175,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 c.set(Calendar.MINUTE, time[1].toInt())// 00
                 binding.showTotalTime.setText(c.time.getFormattedDate(TIMESTAMP))
             }
+            binding.testFragment.id -> {
+                val i = Intent(this, FirstActivity::class.java)
+                startActivity(i)
+            }
+            binding.testAmWn.id -> {
+                val i = Intent(this, PeriodicManagerActivity::class.java)
+                startActivity(i)
+            }
+            binding.dragView.id -> {
+                val i = Intent(this, DragViewActivity::class.java)
+                startActivity(i)
+            }
         }
     }
 
     private fun showNotification() {
         val alarmManager = (getSystemService(ALARM_SERVICE) as AlarmManager)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.cancel(getPenningIntent())
-        }
+        alarmManager.cancel(getPenningIntent())
         val time = binding.time.text.split(":")
         val c: Calendar = Calendar.getInstance()
         c.add(Calendar.HOUR, time[0].toInt())
@@ -187,14 +202,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         println("Calender time set --------> ${c.timeInMillis} | $oneMinuteLater")
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                oneMinuteLater,
+        alarmManager.setExact(
+            AlarmManager.RTC_WAKEUP,
+            oneMinuteLater,
 //                1000 * 60,
-                getPenningIntent()
-            )
-        }
+            getPenningIntent()
+        )
 
     }
 
@@ -211,7 +224,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        }
 //    }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun getPenningIntent(): PendingIntent? {
         return PendingIntent.getBroadcast(
             this,

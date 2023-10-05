@@ -145,6 +145,27 @@
                 android:text="" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/test_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Test Fragment" />
+
+        <Button
+            android:id="@+id/test_am_wn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Test Alarm managet and work manager" />
+
+        <Button
+            android:id="@+id/drag_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Drag View" />
+
     </LinearLayout>
 
     <RelativeLayout

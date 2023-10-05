@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.example.floatingkeyboard.DragViewActivity">
+
+    <EditText
+        android:layout_marginVertical="40dp"
+        android:id="@+id/et_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sdjfhsdfhskdfhskfdhskdfhskdjhfskdhfkaf" />
+
+    <View
+        android:id="@+id/view_drag"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/grey_b3b0a3" />
+
+</LinearLayout>
