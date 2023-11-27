@@ -8,11 +8,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mym_posdemomvvm.R
-import com.example.mym_posdemomvvm.utils.Utils
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
-import kotlin.math.sqrt
 
 
 abstract class SwipeHelper(

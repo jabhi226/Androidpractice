@@ -1,25 +1,20 @@
 package com.example.mym_posdemomvvm.moduls.mposPoc.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mym_posdemomvvm.moduls.mposPoc.ui.adapters.MedicineListAdapter
 import com.example.mym_posdemomvvm.moduls.mposPoc.ui.adapters.MedicineListAdapterOfRedBook
 import com.example.mym_posdemomvvm.databinding.FragmentShowAllMedicineBinding
 import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine
-import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.moduls.mposPoc.viewmodels.MedicineViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import kotlin.coroutines.suspendCoroutine
 
 class ShowAllMedicineFragment(private val type: String) : Fragment() {
 

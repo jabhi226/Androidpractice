@@ -17,6 +17,7 @@ import com.example.mym_posdemomvvm.moduls.mposPoc.ui.fragments.ManufacturersFrag
 import com.example.mym_posdemomvvm.moduls.mposPoc.ui.fragments.SalesFragment
 import com.example.mym_posdemomvvm.moduls.mposPoc.ui.fragments.ShowAllMedicineFragment
 import com.example.mym_posdemomvvm.moduls.periodicAlarmManager.PeriodicManagerActivity
+import com.example.mym_posdemomvvm.moduls.random.RandomActivity
 import com.example.mym_posdemomvvm.moduls.test.ui.activity.FirstActivity
 import com.example.mym_posdemomvvm.utils.Constants
 import com.example.mym_posdemomvvm.utils.Utils
@@ -109,6 +110,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.testFragment.setOnClickListener(this)
         binding.testAmWn.setOnClickListener(this)
         binding.dragView.setOnClickListener(this)
+        binding.randomView.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -185,6 +187,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             binding.dragView.id -> {
                 val i = Intent(this, DragViewActivity::class.java)
+                startActivity(i)
+            }
+            binding.randomView.id -> {
+                val i = Intent(this, RandomActivity::class.java)
                 startActivity(i)
             }
         }

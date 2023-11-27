@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.floatingkeyboard.KeyboardAdapter.Companion.ITEM_KEY
+import com.example.floatingkeyboard.KeyboardAdapter.Companion.ITEM_SPACE
 
 
 class DragViewActivity : AppCompatActivity() {
@@ -45,5 +49,28 @@ class DragViewActivity : AppCompatActivity() {
                 return@setOnTouchListener true
             }
         }
+
+        initKyeBoard()
+    }
+
+    private fun initKyeBoard() {
+        val adapter = KeyboardAdapter()
+        findViewById<RecyclerView>(R.id.rv_keyboard)?.apply {
+            this.adapter = adapter
+            this.layoutManager = StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.HORIZONTAL)
+        }
+        adapter.submitList(getData())
+    }
+
+    private fun getData(): List<Key>{
+        val list = arrayListOf<Key>()
+        for (i in 0..50)  {
+            if (i % 6 == 0){
+                list.add(Key(i.toString(), ITEM_KEY))
+            } else {
+                list.add(Key(i.toString(), ITEM_SPACE))
+            }
+        }
+        return list
     }
 }

@@ -1,10 +1,6 @@
 package com.example.mym_posdemomvvm.moduls.mposPoc.viewmodels
 
 import android.app.Application
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.EditText
-import androidx.core.view.allViews
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

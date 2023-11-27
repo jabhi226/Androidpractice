@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.mym_posdemomvvm.R
 import com.example.mym_posdemomvvm.databinding.FragmentAddMedicineBinding
-import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine
 import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine1
 import com.example.mym_posdemomvvm.utils.Utils
 import com.example.mym_posdemomvvm.moduls.mposPoc.viewmodels.MedicineViewModel
@@ -78,18 +77,21 @@ class AddMedicineFragment : Fragment(), View.OnClickListener {
 
     private fun initViewModel() {
         medicineViewModel = ViewModelProvider(this)[MedicineViewModel::class.java]
-        medicineViewModel?.allManufactures?.observe(viewLifecycleOwner, {
-            if (it != null){
+        medicineViewModel?.allManufactures?.observe(viewLifecycleOwner) {
+            if (it != null) {
                 manufactureList.clear()
                 it.forEach { manufacture ->
                     manufactureList.add(manufacture.manufacturerName)
                     manufactureIdList.add(manufacture.manufactureId)
-                    Log.d("ADD_MANUFACTURE", " -> ${manufacture.manufactureId} | ${manufacture.manufacturerName}")
+                    Log.d(
+                        "ADD_MANUFACTURE",
+                        " -> ${manufacture.manufactureId} | ${manufacture.manufacturerName}"
+                    )
                 }
                 manufactureAdapter?.addAll(manufactureList)
                 manufactureAdapter?.notifyDataSetChanged()
             }
-        })
+        }
         lifecycleScope.launch {
             medicineViewModel?.allMedicinesFromPagingOfRedBook?.collectLatest {
                 Utils.showToast(requireContext(), "Data Inserted!!")

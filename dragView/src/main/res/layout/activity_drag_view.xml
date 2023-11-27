@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context="com.example.floatingkeyboard.DragViewActivity">
 
     <EditText
-        android:layout_marginVertical="40dp"
         android:id="@+id/et_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginVertical="40dp"
         android:text="sdjfhsdfhskdfhskfdhskdfhskdjhfskdhfkaf" />
 
     <View
         android:id="@+id/view_drag"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_alignBottom="@id/et_temp"
         android:background="@color/grey_b3b0a3" />
 
-</LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_keyboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

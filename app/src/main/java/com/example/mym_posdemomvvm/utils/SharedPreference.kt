@@ -2,7 +2,6 @@ package com.example.mym_posdemomvvm.utils
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 
 object SharedPrefs {

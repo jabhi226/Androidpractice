@@ -1,9 +1,7 @@
 package com.example.mym_posdemomvvm.moduls.test.ui.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import com.example.mym_posdemomvvm.R
 import com.example.mym_posdemomvvm.utils.Utils
 import kotlinx.coroutines.CoroutineScope

@@ -1,9 +1,6 @@
 package com.example.mym_posdemomvvm.tests
 
-import kotlinx.coroutines.MainScope
 import org.json.JSONObject
-import java.lang.reflect.Array.set
-import kotlin.reflect.typeOf
 
 object Tests {
 

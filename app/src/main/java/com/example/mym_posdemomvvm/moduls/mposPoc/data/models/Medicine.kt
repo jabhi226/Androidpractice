@@ -3,7 +3,6 @@ package com.example.mym_posdemomvvm.moduls.mposPoc.data.models
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "med")

@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.andorid.testing"
-        minSdk 23
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -44,7 +44,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        applicationVariants.all { variant ->
+//            println("===>" + variant.baseName)
+            variant.outputs.all { output ->
+                println("==>" + output)
+                output.variantOutput.outputFileName.value("${variant.baseName}-${new Date().format("dd-MM-YYYY")}.apk")
+            }
+        }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

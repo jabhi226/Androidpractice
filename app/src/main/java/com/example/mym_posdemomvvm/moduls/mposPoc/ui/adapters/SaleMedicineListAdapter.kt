@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mym_posdemomvvm.databinding.ItemMedicineListForSaleBinding
-import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine
 import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine1
 import com.example.mym_posdemomvvm.utils.Utils
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mym_posdemomvvm.R
+import com.example.mym_posdemomvvm.moduls.test.ui.TestDialogFragment
 
 class SecondFragment : Fragment() {
 
@@ -16,6 +17,12 @@ class SecondFragment : Fragment() {
         // Inflate the layout for this fragment
         println("---> SecondFragment onCreateView")
         return inflater.inflate(R.layout.fragment_second, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val t = TestDialogFragment()
+        t.show(childFragmentManager, "")
     }
 
 }

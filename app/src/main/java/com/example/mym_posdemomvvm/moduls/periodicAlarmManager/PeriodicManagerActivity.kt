@@ -34,7 +34,6 @@ import java.lang.Exception
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
-
 class PeriodicManagerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,17 +77,17 @@ class PeriodicManagerActivity : AppCompatActivity() {
     private fun startAlarm(t: String) {
         try {
             cancelAlarm()
-            val firstMillis = System.currentTimeMillis() + (1000 * 60)// alarm is set right away
+            val firstMillis = System.currentTimeMillis() + (1000 * 60) // alarm is set right away
             Utils.showToast(this, Date(firstMillis).getFormattedDate(TIMESTAMP))
             val alarm = this.getSystemService(ALARM_SERVICE) as AlarmManager
             alarm.setExact(
                 AlarmManager.RTC_WAKEUP,
                 firstMillis,
 //                t.toLong() * 1000L,
-                getPendingIntentForAlarm()
+                getPendingIntentForAlarm(),
             )
             Utils.showToast(this, "AM started")
-        } catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -105,19 +104,18 @@ class PeriodicManagerActivity : AppCompatActivity() {
             this,
             MyAlarmReceiver.REQUEST_CODE,
             intent,
-            PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_IMMUTABLE,
         )
     }
 
     class MyAlarmReceiver : BroadcastReceiver() {
         // Triggered by the Alarm periodically (starts the service to run task)
         override fun onReceive(it: Context, intent: Intent) {
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(
                     NotificationBroadcast.NEW_NOTIFICATION_CHANNEL_ID,
                     NotificationBroadcast.NEW_NOTIFICATION_CHANNEL_ID,
-                    NotificationManager.IMPORTANCE_HIGH
+                    NotificationManager.IMPORTANCE_HIGH,
                 )
                 channel.lightColor = Color.BLUE
                 channel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
@@ -129,20 +127,21 @@ class PeriodicManagerActivity : AppCompatActivity() {
                     it,
                     100,
                     Intent(it, MainActivity::class.java),
-                    PendingIntent.FLAG_IMMUTABLE
+                    PendingIntent.FLAG_IMMUTABLE,
                 )
 
                 val largeIcon = BitmapFactory.decodeResource(
                     it.resources,
-                    R.mipmap.ic_launcher_round
+                    R.mipmap.ic_launcher_round,
                 )
 
                 val remoteViews = RemoteViews(it.packageName, R.layout.custom_notification_layout)
                 val style: NotificationCompat.Style = NotificationCompat.DecoratedCustomViewStyle()
 
                 val notificationBuilder: NotificationCompat.Builder =
-                    NotificationCompat.Builder(it,
-                        NotificationBroadcast.NEW_NOTIFICATION_CHANNEL_ID
+                    NotificationCompat.Builder(
+                        it,
+                        NotificationBroadcast.NEW_NOTIFICATION_CHANNEL_ID,
                     )
                 notificationBuilder
                     .setSmallIcon(R.drawable.ic_launcher_background)
@@ -158,7 +157,6 @@ class PeriodicManagerActivity : AppCompatActivity() {
                     .setContentIntent(pendingIntentToCLickOnNotification)
                 manager.notify(100, notificationBuilder.build())
 
-
 //                val s = System.currentTimeMillis() + (1000 * 60)
 //                println("------------>$s")
 //                (it.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager).setExact(
@@ -168,7 +166,7 @@ class PeriodicManagerActivity : AppCompatActivity() {
 //                )
             }
             val s = SharedPrefs.getString(it, "ALARM_MANAGER") + "|" + Date().getFormattedDate(
-                TIMESTAMP
+                TIMESTAMP,
             )
             SharedPrefs.setString(it, "ALARM_MANAGER", s)
         }
@@ -188,19 +186,17 @@ class PeriodicManagerActivity : AppCompatActivity() {
             WorkManager.getInstance(this).enqueueUniquePeriodicWork(
                 "BackgroundWorker",
                 ExistingPeriodicWorkPolicy.KEEP,
-                workerRequest
+                workerRequest,
             )
             Utils.showToast(this, "WM started")
-        } catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    private fun stopWork(){
+    private fun stopWork() {
         Utils.showToast(this, "WM stopped")
         WorkManager.getInstance(this)
             .cancelAllWorkByTag(BackgroundWorker::class.java.simpleName)
     }
-
-
 }

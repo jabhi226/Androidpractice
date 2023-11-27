@@ -1,10 +1,6 @@
 package com.example.mym_posdemomvvm.moduls.mposPoc.data.models
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import org.jetbrains.annotations.NotNull
 
 //@Entity(tableName = "Parcel")
 data class Parcel(

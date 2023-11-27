@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.liveData
 import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Manufacture
 import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine
 import com.example.mym_posdemomvvm.moduls.mposPoc.data.models.Medicine1

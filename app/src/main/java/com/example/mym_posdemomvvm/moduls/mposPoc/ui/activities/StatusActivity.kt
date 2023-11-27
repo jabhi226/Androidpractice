@@ -1,18 +1,20 @@
 package com.example.mym_posdemomvvm.moduls.mposPoc.ui.activities
 
 import android.os.Bundle
-import android.view.animation.AnimationUtils
-import android.widget.ProgressBar
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mym_posdemomvvm.R
-import com.example.mym_posdemomvvm.moduls.mposPoc.ui.adapters.ViewPagerAdapter
 import com.example.mym_posdemomvvm.databinding.ActivityStatusBinding
+import com.example.mym_posdemomvvm.moduls.mposPoc.ui.adapters.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 
 class StatusActivity : AppCompatActivity() {
 
@@ -41,11 +43,36 @@ class StatusActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.tabLayout
-        TabLayoutMediator(binding.tabLayout, binding.viewPager
-        ) { tab, position ->
+        binding.tabLayout.setOnTabSelectedListener(object: OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.view?.let { scaleView(it, 1.0f, 1.3f) }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.view?.let { scaleView(it, 1.3f, 1.0f) }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                tab?.view?.let { scaleView(it, 1.0f, 1.3f) }
+            }
+
+        })
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
         }.attach()
     }
+
+    fun scaleView(v: View, startScale: Float, endScale: Float) {
+        val anim: Animation = ScaleAnimation(
+            1f, 1f,  // Start and end values for the X axis scaling
+            startScale, endScale,  // Start and end values for the Y axis scaling
+            Animation.RELATIVE_TO_SELF, 0f,  // Pivot point of X scaling
+            Animation.RELATIVE_TO_SELF, 1f
+        ) // Pivot point of Y scaling
+        anim.fillAfter = true // Needed to keep the result of the animation
+        anim.duration = 500
+        v.startAnimation(anim)
+    }
+
 
     private fun getImages(): List<Int> {
         val l = arrayListOf<Int>()

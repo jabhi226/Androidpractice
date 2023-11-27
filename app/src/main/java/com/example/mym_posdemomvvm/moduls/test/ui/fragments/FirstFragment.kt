@@ -3,10 +3,14 @@ package com.example.mym_posdemomvvm.moduls.test.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Base64
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.mym_posdemomvvm.databinding.FragmentFirstBinding
@@ -16,7 +20,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class FirstFragment : Fragment() {
@@ -53,6 +56,38 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         println("---> FirstFragment onViewCreated")
         initView()
+        initWebView()
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun initWebView() {
+        binding.webView.apply {
+//            val unencodedHtml =
+//                "<html><body>'%23' is the percent code for ‘#‘ </body></html>";
+//            val encodedHtml = Base64.encodeToString(unencodedHtml.toByteArray(), Base64.NO_PADDING)
+//            loadData(encodedHtml, "text/html", "base64")
+//            loadData(encodedHtml, "text/html", "base64")
+
+            settings.apply {
+                setSupportZoom(false)
+                javaScriptEnabled = true
+            }
+            isVerticalScrollBarEnabled = false
+            isHorizontalScrollBarEnabled = false
+            settings.loadWithOverviewMode = true;
+            settings.useWideViewPort = true;
+
+            webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(
+                    view: WebView?,
+                    request: WebResourceRequest?
+                ): Boolean {
+                    return false
+                }
+
+            }
+            loadUrl("https://media.tenor.com/TRZWNWv4iwAAAAAC/happy-diwali-file.gif")
+        }
     }
 
     @SuppressLint("SetTextI18n")

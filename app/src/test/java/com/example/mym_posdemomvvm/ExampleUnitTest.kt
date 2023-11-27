@@ -1,11 +1,8 @@
 package com.example.mym_posdemomvvm
 
-import com.example.mym_posdemomvvm.tests.Tests
 import com.example.mym_posdemomvvm.utils.Pracs
 import com.google.common.truth.Truth
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class ExampleUnitTest {
 

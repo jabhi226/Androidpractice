@@ -1,7 +1,6 @@
 package com.example.mym_posdemomvvm.moduls.mposPoc.data.models
 
 import androidx.room.ColumnInfo
-import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 //@Entity(tableName = "gen")
